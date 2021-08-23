@@ -1,11 +1,13 @@
 <template>
-<div>Detail.vue</div>
+<div>
+  Detail.vue
+  <Nav/>
+</div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
-
 @Component
 export default class Detail extends Vue {
 
