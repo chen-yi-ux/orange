@@ -3,13 +3,14 @@ import VueRouter, { RouteConfig } from 'vue-router'
 import Detail from '@/views/Detail.vue';
 import Money from '@/views/Money.vue';
 import Chart from '@/views/Chart.vue';
+import NotFound from '@/views/NotFound.vue';
 
 Vue.use(VueRouter)
 
 const routes: Array<RouteConfig> = [
   {
-    path: '/',
-    redirect: 'detail'
+    path: '/',           // 根路径
+    redirect: 'detail'      // 重定向
   },
   {
     path: '/detail',
@@ -22,8 +23,11 @@ const routes: Array<RouteConfig> = [
   {
     path: '/chart',
     component: Chart
+  },
+  {
+    path: '*',
+    component: NotFound
   }
-
 ]
 
 const router = new VueRouter({
