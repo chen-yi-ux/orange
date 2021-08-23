@@ -1,6 +1,9 @@
 <template>
   <div>
-    出错啦
+    <div>当前页面不存在，检查下网址哦</div>
+    <div>
+      <router-link to="/">返回首页</router-link>
+    </div>
   </div>
 </template>
 
