@@ -1,13 +1,6 @@
 <template>
   <div id="app">
     <router-view/>
-    <div>
-      <router-link to="/detail">明细</router-link>
-      |
-      <router-link to="/money">记一笔</router-link>
-      |
-      <router-link to="/chart">图表</router-link>
-    </div>
   </div>
 </template>
 
