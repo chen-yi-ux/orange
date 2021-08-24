@@ -3,7 +3,6 @@
     <Layout>
       Chart.vue
     </Layout>
-    <Nav/>
   </div>
 </template>
 

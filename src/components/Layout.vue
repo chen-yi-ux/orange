@@ -20,12 +20,10 @@ export default class Layout extends Vue {
 <style lang="scss" scoped>
 .nav-wrapper{
   display: flex;
-  border: 1px solid green;
   flex-direction: column;
   height: 100vh;
 }
 .content{
-  border: 1px solid blue;
   flex-grow: 1;         // 尽量把所有高度都给 .content
   overflow: auto;      // 当这个元素内容太大，显示滚动条
 }
