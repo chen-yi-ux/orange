@@ -1,15 +1,15 @@
 <template>
   <nav>
-    <router-link to="/detail" class="item">
+    <router-link to="/detail" class="item" active-class="selected">
       <Icon name="detail"/>
       明细
     </router-link>
-    <router-link to="/money" class="item">
-      <span class="item2">
+    <router-link to="/money" class="item" active-class="selected">
+      <div class="item2">
         记一笔
-      </span>
+      </div>
     </router-link>
-    <router-link to="/chart" class="item">
+    <router-link to="/chart" class="item" active-class="selected">
       <Icon name="chart"/>
       图表
     </router-link>
@@ -28,6 +28,7 @@ export default class Nav extends Vue {
 </script>
 
 <style lang="scss" scoped>
+@import '~@/assets/style/helper.scss';
 nav {
   display: flex;
   box-shadow: 0 0 3px rgba(0,0,0,0.2);
@@ -52,7 +53,9 @@ nav {
       color: white;
     }
   }
-
+  .item.selected{
+    color: $color-highlight;
+  }
   .icon{
     width: 28px;
     height: 28px;
