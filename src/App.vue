@@ -14,4 +14,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+#app{
+  height: 100vh;
+}
 </style>

@@ -1,14 +1,22 @@
 <template>
-  <div>
-    <Title/>
-    <Type/>
-    <div class="block">
-      <Input/>
-      <Time/>
-      <Notes/>
-      <Labels/>
-    </div>
-    <Save/>
+  <div class="money">
+    <header>
+      <Title/>
+      <Type/>
+    </header>
+    <main>
+      <div class="body">
+        <div class="block">
+          <Input/>
+          <Time/>
+          <Notes/>
+          <Labels/>
+        </div>
+        <div class="save">
+          <Save/>
+        </div>
+      </div>
+    </main>
   </div>
 </template>
 
@@ -32,8 +40,31 @@ export default class Money extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.block{
-  padding-left: 18px;
-  padding-right: 4px;
+@import '~@/assets/style/helper.scss';
+.money{
+  height: 100%;
+  padding-bottom: 5px;
 }
+header{
+  height: 110px;
+}
+main{
+  height: calc(100% - 110px);
+  > .body {
+    height: 100%;
+    > .block {
+      overflow: auto;
+      padding: 0 14px;
+      height: 88%;
+    }
+    > .save {
+      height: 12%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
+
+
 </style>
