@@ -32,9 +32,10 @@ export default class Type extends Vue {
 .types{
   display: flex;
   font-size: 24px;
+  box-shadow: 0 2px 2px #e3e3e3;
   > li{
     width: 50%;
-    height: 50px;
+    height: 46px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -54,9 +55,9 @@ export default class Type extends Vue {
       //background: $color-highlight;    //直线
       width: 0;
       height: 0;
-      border-left: 10px solid transparent;
-      border-right: 10px solid transparent;
-      border-bottom: 10px solid $color-highlight;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-bottom: 8px solid $color-highlight;
     }
   }
 

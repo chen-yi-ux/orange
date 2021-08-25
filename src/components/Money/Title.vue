@@ -22,7 +22,7 @@ export default class Title extends Vue {
 .title{
   font-size: 24px;
   text-align: center;
-  padding: 14px 16px;
+  padding: 14px 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;

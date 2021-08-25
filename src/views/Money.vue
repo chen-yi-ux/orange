@@ -1,13 +1,15 @@
 <template>
-<div>
-  <Title/>
-  <Type/>
-  <Input/>
-  <Time/>
-  <Notes/>
-  <Labels/>
-  <Save/>
-</div>
+  <div>
+    <Title/>
+    <Type/>
+    <div class="block">
+      <Input/>
+      <Time/>
+      <Notes/>
+      <Labels/>
+    </div>
+    <Save/>
+  </div>
 </template>
 
 <script lang="ts">
@@ -20,6 +22,7 @@ import Time from '@/components/Money/Time.vue';
 import Notes from '@/components/Money/Notes.vue';
 import Labels from '@/components/Money/Labels.vue';
 import Save from '@/components/Money/Save.vue';
+
 @Component({
   components: {Save, Labels, Notes, Time, Input, Type, Title}
 })
@@ -29,5 +32,8 @@ export default class Money extends Vue {
 </script>
 
 <style lang="scss" scoped>
-
+.block{
+  padding-left: 18px;
+  padding-right: 4px;
+}
 </style>
