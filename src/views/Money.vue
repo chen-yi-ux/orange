@@ -35,7 +35,7 @@ import Save from '@/components/Money/Save.vue';
   components: {Save, Labels, Notes, Time, Input, Type, Title}
 })
 export default class Money extends Vue {
-  labels = ['衣服', '吃饭', '住房', '出行', '零食'];
+  labels = ['衣服', '吃饭', '住房', '出行'];
 }
 </script>
 

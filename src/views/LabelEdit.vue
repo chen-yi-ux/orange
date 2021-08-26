@@ -1,0 +1,130 @@
+<template>
+  <div class="edit">
+    <div class="title">
+      <Icon name="left-white" class="icon" @click="goBack"/>
+      <ul>
+        <li class="income"
+            :class="type === '+' && 'selected'"
+            @click="select('+')">收入
+        </li>
+        <li class="expenses"
+            :class="type === '-' && 'selected'"
+            @click="select('-')">支出
+        </li>
+      </ul>
+    </div>
+    <div class="content">
+      <div class="labels">
+        标签
+      </div>
+      <div class="add" @click="goAdd">
+        <Icon name="add"/>
+        添加类别
+      </div>
+    </div>
+
+  </div>
+</template>
+
+<script lang="ts">
+import Vue from 'vue';
+import {Component} from 'vue-property-decorator';
+
+@Component
+export default class LabelEdit extends Vue {
+  goBack() {
+    this.$router.back();
+  }
+
+  type = '-';
+
+  select(type: string) {
+    this.type = type;
+  }
+  goAdd(){
+    if(this.type === '-'){
+      this.$router.push('/money/edit/add/expenses')
+    }else{
+      this.$router.push('/money/edit/add/income')
+    }
+
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+@import '~@/assets/style/helper.scss';
+
+.edit {
+  height: 100%;
+
+  > .title {
+    height: 110px;
+    background: $color-highlight;
+    padding-top: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    > .icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    > ul {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-top: 10px;
+
+      > li {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30%;
+        font-size: 20px;
+        height: 2.2em;
+        border: 1px solid black;
+
+        &.income {
+          border-radius: 15px 0 0 15px;
+        }
+
+        &.expenses {
+          border-radius: 0 15px 15px 0;
+        }
+
+        &.selected {
+          background: white;
+          color: $color-highlight;
+          border: 1px solid white;
+        }
+      }
+    }
+  }
+
+  .content {
+    height: calc(100% - 110px);
+
+    > .labels {
+      height: 85%;
+      overflow: auto;
+    }
+
+    .add {
+      box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+      height: 15%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: white;
+      font-size: 18px;
+      flex-direction: column;
+      > .icon{
+        width: 23px;
+        height: 23px;
+      }
+    }
+  }
+}
+
+</style>

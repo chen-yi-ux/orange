@@ -10,6 +10,9 @@
             :class="selectedLabels.indexOf(item)>=0 && 'selected'"
             @click="select(item)">{{ item }}
         </li>
+        <li @click="goEdit">
+          <span>设置</span>
+        </li>
         <!--        <li>-->
         <!--          <div class="item selected">-->
         <!--            <Icon name="food" class="itemIcon"/>-->
@@ -79,7 +82,10 @@ export default class Labels extends Vue {
     } else {
       this.selectedLabels.push(item);
     }
+  }
 
+  goEdit() {
+    this.$router.push('/money/edit');
   }
 }
 </script>
