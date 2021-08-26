@@ -53,7 +53,6 @@ main{
   > .body {
     height: 100%;
     > .block {
-      overflow: auto;
       padding: 0 14px;
       height: 88%;
     }
