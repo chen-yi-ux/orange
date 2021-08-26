@@ -10,7 +10,7 @@
           <Input/>
           <Time/>
           <Notes/>
-          <Labels/>
+          <Labels :data-source="labels"/>
         </div>
         <div class="save">
           <Save/>
@@ -35,27 +35,33 @@ import Save from '@/components/Money/Save.vue';
   components: {Save, Labels, Notes, Time, Input, Type, Title}
 })
 export default class Money extends Vue {
-
+  labels = ['衣服', '吃饭', '住房', '出行', '零食'];
 }
 </script>
 
 <style lang="scss" scoped>
 @import '~@/assets/style/helper.scss';
-.money{
+
+.money {
   height: 100%;
   padding-bottom: 5px;
 }
-header{
+
+header {
   height: 110px;
 }
-main{
+
+main {
   height: calc(100% - 110px);
+
   > .body {
     height: 100%;
+
     > .block {
       padding: 0 14px;
       height: 88%;
     }
+
     > .save {
       height: 12%;
       display: flex;
