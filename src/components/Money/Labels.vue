@@ -6,61 +6,21 @@
     </div>
     <div class="scrollArea">
       <ul class="icons">
-        <li v-for="item in dataSource" :key="item"
-            :class="selectedLabels.indexOf(item)>=0 && 'selected'"
-            @click="select(item)">{{ item }}
+        <li v-for="(item, index) in dataSource" :key="index">
+          <div class="item"
+               :class="selectedLabels.indexOf(item)>=0 && 'selected'"
+               @click="select(item)">
+            <Icon :name="item.svg" class="itemIcon"/>
+            <span>{{ item.name }}</span>
+          </div>
         </li>
         <li @click="goEdit">
-          <span>设置</span>
+          <div class="item">
+            <Icon name="设置" class="itemIcon"/>
+            <span>设置</span>
+          </div>
         </li>
-        <!--        <li>-->
-        <!--          <div class="item selected">-->
-        <!--            <Icon name="food" class="itemIcon"/>-->
-        <!--          </div>-->
-        <!--          <span>吃饭</span>-->
-        <!--        </li>-->
-        <!--        <li>-->
-        <!--          <div class="item">-->
-        <!--            <Icon name="cloth" class="itemIcon"/>-->
-        <!--          </div>-->
-        <!--          <span>衣服</span>-->
-        <!--        </li>-->
-        <!--        <li>-->
-        <!--          <div class="item">-->
-        <!--            <Icon name="travel" class="itemIcon"/>-->
-        <!--          </div>-->
-        <!--          <span class="itemContent">出行</span>-->
-        <!--        </li>-->
-        <!--        <li>-->
-        <!--          <div class="item">-->
-        <!--            <Icon name="sport" class="itemIcon"/>-->
-        <!--          </div>-->
-        <!--          <span class="itemContent">运动</span>-->
-        <!--        </li>-->
-        <!--        <li>-->
-        <!--          <div class="item">-->
-        <!--            <Icon name="pet" class="itemIcon"/>-->
-        <!--          </div>-->
-        <!--          <span class="itemContent">宠物</span>-->
-        <!--        </li>-->
-        <!--        <li>-->
-        <!--          <div class="item">-->
-        <!--            <Icon name="medical" class="itemIcon"/>-->
-        <!--          </div>-->
-        <!--          <span class="itemContent">医疗</span>-->
-        <!--        </li>-->
-        <!--        <li>-->
-        <!--          <div class="item">-->
-        <!--            <Icon name="study" class="itemIcon"/>-->
-        <!--          </div>-->
-        <!--          <span class="itemContent">学习</span>-->
-        <!--        </li>-->
-        <!--        <li>-->
-        <!--          <div class="item">-->
-        <!--            <Icon name="setting" class="itemIcon"/>-->
-        <!--          </div>-->
-        <!--          <span class="itemContent">编辑</span>-->
-        <!--        </li>-->
+
       </ul>
     </div>
   </div>
@@ -69,13 +29,14 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component, Prop} from 'vue-property-decorator';
+import {Label} from '@/custom';
 
 @Component
 export default class Labels extends Vue {
-  @Prop(Array) dataSource: string[] | undefined;
-  selectedLabels: string[] = [];
+  @Prop(Array) dataSource: Label | undefined;
+  selectedLabels: Label = [];
 
-  select(item: string) {
+  select(item: Label) {
     const index = this.selectedLabels.indexOf(item);
     if (index >= 0) {
       this.selectedLabels.splice(index, 1);
@@ -96,12 +57,10 @@ export default class Labels extends Vue {
   padding-top: 13px;
   display: flex;
   align-items: center;
-
   > .labelIcon {
     width: 30px;
     height: 30px;
   }
-
   > .content {
     padding-left: 5px;
     color: #636363;
@@ -111,33 +70,51 @@ export default class Labels extends Vue {
 .scrollArea {
   height: 35vh;
   overflow: auto;
-
   .icons {
     display: flex;
     flex-wrap: wrap;
     padding: 12px 0;
-
     > li {
       width: 33.33333%;
       height: 90px;
       display: flex;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
-      font-size: 16px;
-
-      &.selected {
-        background: #FF983B;
-      }
-
       > .item {
         display: flex;
         justify-content: center;
         align-items: center;
-
+        flex-direction: column;
+        font-size: 16px;
+        width: 90%;
+        height: 85px;
+        border-radius: 20px;
+        &.selected {
+          background: lavenderblush;
+          svg {
+            animation: shake 0.3s linear;
+          }
+        }
         > .itemIcon {
           width: 55px;
           height: 55px;
+        }
+      }
+      @keyframes shake {
+        0% {
+          transform: rotate(0deg);
+        }
+        20% {
+          transform: rotate(20deg);
+        }
+        40% {
+          transform: rotate(0deg);
+        }
+        80% {
+          transform: rotate(-20deg);
+        }
+        100% {
+          transform: rotate(0deg);
         }
       }
     }
