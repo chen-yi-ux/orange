@@ -1,8 +1,8 @@
 <template>
-  <div class="numberPad">
+  <div class="numberPad" v-show="numberPad">
     <div class="buttons clearfix">
       <div class="downMove">
-        <button class="down">
+        <button class="down" @click="showPad">
           <Icon class="icon" name="down"/>
         </button>
       </div>
@@ -32,7 +32,11 @@ import {Component} from 'vue-property-decorator';
 
 @Component
 export default class NumberPad extends Vue {
+  numberPad: boolean = true;
 
+  showPad(){
+    this.numberPad = !this.numberPad;
+  }
 }
 </script>
 
