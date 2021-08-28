@@ -1,6 +1,9 @@
 <template>
   <div class="input">
-    <div>{{input}}</div>
+    <input type="text" value="0.00"
+           onfocus="if(value==='0.00') {value=''}"
+           onblur="if (value==='') {value='0.00'}"
+    >
   </div>
 </template>
 
@@ -10,7 +13,6 @@ import {Component} from 'vue-property-decorator';
 
 @Component
 export default class Input extends Vue {
-  input: string = '0.00';
 }
 </script>
 
@@ -18,12 +20,30 @@ export default class Input extends Vue {
 .input {
   height: 90px;
   padding-left: 4px;
-  padding-top: 20px;
-  font-size: 48px;
-  color: #306ECC;
+  padding-top: 30px;
   border-bottom: 1px solid #306ECC;
-  font-family: Consolas, monospace;
-  > .content {
+
+  > input {
+    width: 100%;
+    font-size: 48px;
+    font-family: Consolas, monospace;
+    color: #306ECC;
+    background: none;
+    outline:none;
+    border:0;
   }
 }
+input:-moz-placeholder,
+textarea:-moz-placeholder {
+  color: #306ECC;
+}
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+  color: #306ECC;
+}
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+  color: #306ECC ;
+}
+
 </style>
