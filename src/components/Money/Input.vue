@@ -1,6 +1,6 @@
 <template>
   <div class="input">
-    <span>{{input}}</span>
+    <div>{{input}}</div>
   </div>
 </template>
 
