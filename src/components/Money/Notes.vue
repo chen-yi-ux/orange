@@ -2,7 +2,9 @@
 <div class="notes">
   <Icon name="note" class="noteIcon"/>
   <span class="content">备注</span>
-  <input type="text" placeholder="...">
+  <input type="text"
+         v-model="value"
+         placeholder="...">
 </div>
 </template>
 
@@ -12,7 +14,7 @@ import {Component} from 'vue-property-decorator';
 
 @Component
 export default class Notes extends Vue {
-
+  value = '';
 }
 </script>
 
