@@ -34,9 +34,9 @@ import Time from '@/components/Money/Time.vue';
 import Notes from '@/components/Money/Notes.vue';
 import Labels from '@/components/Money/Labels.vue';
 import {RecordItem} from '@/custom';
-import model from '@/model';
+import recordListModel from '@/models/recordListModel';
 
-const recordList = model.fetch();
+const recordList = recordListModel.fetch();
 
 @Component({
   components: {Labels, Notes, Time, Input, Type, Title}
@@ -52,7 +52,7 @@ export default class Money extends Vue {
 
   @Watch('recordList')
   onRecordListChanged() {
-    model.save(this.recordList);
+    recordListModel.save(this.recordList);
     this.$router.push('/detail');
   }
 

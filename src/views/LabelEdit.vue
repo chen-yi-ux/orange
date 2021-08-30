@@ -15,28 +15,10 @@
     </div>
     <div class="content">
       <ul class="labels">
-        <li>
+        <li v-for="(item, index) in dataSource" :key="index">
           <div class="wrapper">
-            <Icon name="三餐"/>
-            <span>三餐</span>
-          </div>
-          <div class="icon-wrapper">
-            <Icon name="删除"/>
-          </div>
-        </li>
-        <li>
-          <div class="wrapper">
-            <Icon name="衣服"/>
-            <span>衣服</span>
-          </div>
-          <div class="icon-wrapper">
-            <Icon name="删除"/>
-          </div>
-        </li>
-        <li>
-          <div class="wrapper">
-            <Icon name="宠物"/>
-            <span>宠物</span>
+            <Icon :name="item.svg"/>
+            <span>{{ item.name }}</span>
           </div>
           <div class="icon-wrapper">
             <Icon name="删除"/>
@@ -55,11 +37,16 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
+import defaultLabels from '@/constants/defaultLabels';
 
 @Component
 export default class LabelEdit extends Vue {
   goBack() {
     this.$router.back();
+  }
+
+  get dataSource() {
+    return defaultLabels.filter((item) => item.type === this.type);
   }
 
   type = '-';
@@ -135,25 +122,29 @@ export default class LabelEdit extends Vue {
     > .labels {
       height: 85%;
       overflow: auto;
-      > li{
+
+      > li {
         display: flex;
         justify-content: space-between;
         align-items: center;
         height: 45px;
         padding: 0 15px;
         border-bottom: 1px solid #e3e3e3;
-        > .wrapper{
+
+        > .wrapper {
           display: flex;
           justify-content: space-between;
           align-items: center;
           font-size: 16px;
-          > .icon{
+
+          > .icon {
             margin-right: 8px;
             width: 30px;
             height: 30px;
           }
         }
-        > .icon-wrapper > .icon{
+
+        > .icon-wrapper > .icon {
           margin-top: 8px;
           width: 20px;
           height: 20px;
