@@ -14,9 +14,35 @@
       </ul>
     </div>
     <div class="content">
-      <div class="labels">
-        标签
-      </div>
+      <ul class="labels">
+        <li>
+          <div class="wrapper">
+            <Icon name="三餐"/>
+            <span>三餐</span>
+          </div>
+          <div class="icon-wrapper">
+            <Icon name="删除"/>
+          </div>
+        </li>
+        <li>
+          <div class="wrapper">
+            <Icon name="衣服"/>
+            <span>衣服</span>
+          </div>
+          <div class="icon-wrapper">
+            <Icon name="删除"/>
+          </div>
+        </li>
+        <li>
+          <div class="wrapper">
+            <Icon name="宠物"/>
+            <span>宠物</span>
+          </div>
+          <div class="icon-wrapper">
+            <Icon name="删除"/>
+          </div>
+        </li>
+      </ul>
       <div class="add" @click="goAdd">
         <Icon name="add"/>
         添加类别
@@ -41,11 +67,12 @@ export default class LabelEdit extends Vue {
   select(type: string) {
     this.type = type;
   }
-  goAdd(){
-    if(this.type === '-'){
-      this.$router.push('/money/edit/add/expenses')
-    }else{
-      this.$router.push('/money/edit/add/income')
+
+  goAdd() {
+    if (this.type === '-') {
+      this.$router.push('/money/edit/add/expenses');
+    } else {
+      this.$router.push('/money/edit/add/income');
     }
 
   }
@@ -108,6 +135,30 @@ export default class LabelEdit extends Vue {
     > .labels {
       height: 85%;
       overflow: auto;
+      > li{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 45px;
+        padding: 0 15px;
+        border-bottom: 1px solid #e3e3e3;
+        > .wrapper{
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 16px;
+          > .icon{
+            margin-right: 8px;
+            width: 30px;
+            height: 30px;
+          }
+        }
+        > .icon-wrapper > .icon{
+          margin-top: 8px;
+          width: 20px;
+          height: 20px;
+        }
+      }
     }
 
     .add {
@@ -119,12 +170,14 @@ export default class LabelEdit extends Vue {
       background: white;
       font-size: 18px;
       flex-direction: column;
-      > .icon{
+
+      > .icon {
         width: 23px;
         height: 23px;
       }
     }
   }
 }
+
 
 </style>
