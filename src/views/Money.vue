@@ -48,17 +48,17 @@ type Record = {
 })
 export default class Money extends Vue {
   record: Record = {type: '-', amount: '0.00', date: '', notes: '', labels: {name: '三餐', svg: '三餐', type: '-'}};
-  recordList: Record[] = [];
+  recordList: Record[] = JSON.parse(window.localStorage.getItem('recordList') || '[]');
 
   saveRecord() {
     const record2 = JSON.parse(JSON.stringify(this.record));
     this.recordList.push(record2);
-    console.log(this.recordList);
   }
 
   @Watch('recordList')
   onRecordListChanged() {
     window.localStorage.setItem('recordList', JSON.stringify(this.recordList));
+    this.$router.push('/detail');
   }
 
 }
