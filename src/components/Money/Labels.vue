@@ -8,7 +8,7 @@
       <ul class="icons">
         <li v-for="(item, index) in dataSource" :key="index">
           <div class="item"
-               :class="selectedLabels.indexOf(item)>=0 && 'selected'"
+               :class="{selected: item.name === selectedLabels.name}"
                @click="select(item)">
             <Icon :name="item.svg" class="itemIcon"/>
             <span>{{ item.name }}</span>
@@ -28,21 +28,31 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component, Prop} from 'vue-property-decorator';
+import {Component, Prop, Watch} from 'vue-property-decorator';
 import {Label} from '@/custom';
+import defaultLabels from '@/constants/defaultLabels';
+
 
 @Component
 export default class Labels extends Vue {
-  @Prop(Array) dataSource: Label | undefined;
-  selectedLabels: Label = [];
+  @Prop(String) type!: string;
+  @Prop() selectedLabels!: Label;
+
+  get dataSource() {
+    return defaultLabels.filter((item) => item.type === this.type);
+  }
+
+  @Watch('type')
+  updateLabel() {
+    if (this.type === '-') {
+      this.select({name: '三餐', svg: '三餐', type: '-'});
+    } else {
+      this.select({name: '工资', svg: '工资', type: '+'});
+    }
+  }
 
   select(item: Label) {
-    const index = this.selectedLabels.indexOf(item);
-    if (index >= 0) {
-      this.selectedLabels.splice(index, 1);
-    } else {
-      this.selectedLabels.push(item);
-    }
+    this.$emit('update:selectedLabels', item);
   }
 
   goEdit() {
@@ -57,10 +67,12 @@ export default class Labels extends Vue {
   padding-top: 13px;
   display: flex;
   align-items: center;
+
   > .labelIcon {
-    width: 30px;
-    height: 30px;
+    width: 27px;
+    height: 27px;
   }
+
   > .content {
     padding-left: 5px;
     color: #636363;
@@ -70,16 +82,19 @@ export default class Labels extends Vue {
 .scrollArea {
   height: 35vh;
   overflow: auto;
+
   .icons {
     display: flex;
     flex-wrap: wrap;
     padding: 12px 0;
+
     > li {
       width: 33.33333%;
-      height: 90px;
+      height: 85px;
       display: flex;
       justify-content: center;
       align-items: center;
+
       > .item {
         display: flex;
         justify-content: center;
@@ -87,19 +102,23 @@ export default class Labels extends Vue {
         flex-direction: column;
         font-size: 16px;
         width: 90%;
-        height: 85px;
+        height: 75px;
         border-radius: 20px;
+
         &.selected {
           background: lavenderblush;
+
           svg {
             animation: shake 0.3s linear;
           }
         }
+
         > .itemIcon {
-          width: 55px;
-          height: 55px;
+          width: 45px;
+          height: 45px;
         }
       }
+
       @keyframes shake {
         0% {
           transform: rotate(0deg);

@@ -1,42 +1,53 @@
 <template>
-<div class="time">
-  <Icon name="time" class="timeIcon"/>
-  <span class="content">时间</span>
-  <input type="text" placeholder="记录时间">
-</div>
+  <div class="time">
+    <Icon name="time" class="timeIcon"/>
+    <span class="content">时间</span>
+    <a-date-picker show-time placeholder="选择日期"
+                   :defaultValue="moment(getCurrentDate(), 'YYYY-MM-DD HH:mm')"
+                   @change="changeDate"/>
+  </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
+import moment, {Moment} from 'moment';
 
 @Component
 export default class Time extends Vue {
+  moment = moment;
 
+  getCurrentDate(){
+    const now = moment().format('lll')
+    this.$emit('update:value', now);
+    return now;
+  }
+
+  changeDate(moment: Moment) {
+    const date = moment.format('lll');
+    this.$emit('update:value', date);
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-.time{
+.time {
   font-size: 18px;
   padding: 13px 0;
   border-bottom: 1px solid #e3e3e3;
   display: flex;
   align-items: center;
-  > .timeIcon{
-    width: 30px;
-    height: 30px;
+
+  > .timeIcon {
+    width: 27px;
+    height: 27px;
   }
-  > .content{
+
+  > .content {
     padding-left: 5px;
     padding-right: 18px;
     color: #636363;
   }
-  input{
 
-    //background:none;
-    //outline:none;
-    //border:0;
-  }
 }
 </style>

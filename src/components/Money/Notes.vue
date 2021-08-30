@@ -3,18 +3,22 @@
   <Icon name="note" class="noteIcon"/>
   <span class="content">备注</span>
   <input type="text"
-         v-model="value"
+         v-model="this.value"
          placeholder="...">
 </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component} from 'vue-property-decorator';
+import {Component, Prop, Watch} from 'vue-property-decorator';
 
 @Component
 export default class Notes extends Vue {
-  value = '';
+  @Prop() value: string | undefined;
+  @Watch('value')
+  onValueChanged(value: string){
+    this.$emit('update:value', value)
+  }
 }
 </script>
 
@@ -26,8 +30,8 @@ export default class Notes extends Vue {
   display: flex;
   align-items: center;
   > .noteIcon{
-    width: 30px;
-    height: 30px;
+    width: 27px;
+    height: 27px;
   }
   > .content{
     padding-left: 5px;
