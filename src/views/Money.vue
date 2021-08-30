@@ -33,22 +33,17 @@ import Input from '@/components/Money/Input.vue';
 import Time from '@/components/Money/Time.vue';
 import Notes from '@/components/Money/Notes.vue';
 import Labels from '@/components/Money/Labels.vue';
-import {Label} from '@/custom';
+import {RecordItem} from '@/custom';
+import model from '@/model';
 
-type Record = {
-  type: string,
-  amount: string,
-  date: string,
-  notes: string,
-  labels: Label
-}
+const recordList = model.fetch();
 
 @Component({
   components: {Labels, Notes, Time, Input, Type, Title}
 })
 export default class Money extends Vue {
-  record: Record = {type: '-', amount: '0.00', date: '', notes: '', labels: {name: '三餐', svg: '三餐', type: '-'}};
-  recordList: Record[] = JSON.parse(window.localStorage.getItem('recordList') || '[]');
+  record: RecordItem = {type: '-', amount: '0.00', date: '', notes: '', labels: {name: '三餐', svg: '三餐', type: '-'}};
+  recordList: RecordItem[] = recordList;
 
   saveRecord() {
     const record2 = JSON.parse(JSON.stringify(this.record));
@@ -57,7 +52,7 @@ export default class Money extends Vue {
 
   @Watch('recordList')
   onRecordListChanged() {
-    window.localStorage.setItem('recordList', JSON.stringify(this.recordList));
+    model.save(this.recordList);
     this.$router.push('/detail');
   }
 
