@@ -2,7 +2,7 @@
   <div class="add">
     <div class="title">
       <Icon name="left-white" @click="goBack"/>
-      <span class="content" >
+      <span class="content">
         <slot/>
       </span>
       <span class="finish" @click="goBack">完成</span>
@@ -13,12 +13,15 @@
     </div>
     <div class="icons">
       <span>图标</span>
-      <ul>
-        <li>图1</li>
-        <li>图2</li>
-        <li>图3</li>
-        <li>图4</li>
-      </ul>
+      <div class="scrollArea">
+        <ul>
+          <li v-for="item in dataSource" :key="item">
+            <div class="icon-wrapper">
+              <Icon :name="item"/>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -26,10 +29,13 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
+import AllLabels from '@/constants/AllLabels';
 
 @Component
 export default class LabelAddExpenses extends Vue {
-  goBack(){
+  dataSource = AllLabels;
+
+  goBack() {
     this.$router.back();
   }
 }
@@ -37,9 +43,11 @@ export default class LabelAddExpenses extends Vue {
 
 <style lang="scss" scoped>
 @import "~@/assets/style/helper.scss";
-.add{
+
+.add {
   height: 100%;
-  > .title{
+
+  > .title {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -48,14 +56,17 @@ export default class LabelAddExpenses extends Vue {
     padding: 0 10px;
     padding-top: 10px;
     color: white;
-    > .icon{
+
+    > .icon {
       width: 12%;
       padding-right: 15px;
     }
-    > .content{
+
+    > .content {
       font-size: 22px;
     }
-    > .finish{
+
+    > .finish {
       font-size: 16px;
       width: 12%;
       display: flex;
@@ -64,7 +75,7 @@ export default class LabelAddExpenses extends Vue {
     }
   }
 
-  > .name{
+  > .name {
     height: 45px;
     display: flex;
     justify-content: space-between;
@@ -72,15 +83,53 @@ export default class LabelAddExpenses extends Vue {
     padding: 0 10px;
     border-bottom: 1px solid #e3e3e3;
     font-size: 18px;
+    color: black;
+
+    > input {
+      background: none;
+      outline: none;
+      border: 0;
+      text-align: right;
+    }
   }
 
-  > .icons{
+  > .icons {
+    color: black;
     font-size: 18px;
     height: calc(100% - 105px);
-    overflow: auto;
+    padding: 10px;
+    > .scrollArea{
+      overflow: auto;
+      height: 95%;
+      > ul {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        padding-top: 10px;
+        > li {
+          width: 25%;
+          height: 30%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
 
-    > ul{
-      border: 1px solid red;
+          > .icon-wrapper{
+            border: 1px solid #e3e3e3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 30%;
+            width: 80%;
+            height: 71px;
+            margin-bottom: 10px;
+
+            > .icon {
+              width: 45px;
+              height: 45px;
+            }
+          }
+        }
+      }
     }
   }
 }
