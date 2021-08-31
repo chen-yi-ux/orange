@@ -6,7 +6,7 @@
     </div>
     <div class="scrollArea">
       <ul class="icons">
-        <li v-for="(item, index) in dataSource" :key="index">
+        <li v-for="item in dataSource" :key="item.name">
           <div class="item"
                :class="{selected: item.name === selectedLabels.name}"
                @click="select(item)">
@@ -31,6 +31,7 @@ import Vue from 'vue';
 import {Component, Prop, Watch} from 'vue-property-decorator';
 import {Label} from '@/custom';
 import defaultLabels from '@/constants/defaultLabels';
+import labelListModel from '@/models/labelListModel';
 
 
 @Component
@@ -39,7 +40,8 @@ export default class Labels extends Vue {
   @Prop() selectedLabels!: Label;
 
   get dataSource() {
-    return defaultLabels.filter((item) => item.type === this.type);
+    const labelList = labelListModel.fetch();
+    return labelList.filter((item) => item.type === this.type);
   }
 
   @Watch('type')

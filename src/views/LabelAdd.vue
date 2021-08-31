@@ -10,7 +10,7 @@
     <div class="name">
       <span>类别名称</span>
       <input type="text" placeholder="<输入名称>"
-             v-model="name" @input="change">
+             v-model="name">
     </div>
     <div class="icons">
       <span>图标</span>
@@ -29,26 +29,21 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component, Model, Prop} from 'vue-property-decorator';
+import {Component} from 'vue-property-decorator';
 import AllLabels from '@/constants/AllLabels';
-import defaultLabels from '@/constants/defaultLabels';
 import {moneyType} from '@/custom';
+import labelListModel from '@/models/labelListModel';
+
 
 @Component
 export default class LabelAddExpenses extends Vue {
   dataSource = AllLabels;
   selectIcon: string = AllLabels[0];
   name = '';
-  type = this.$route.params.type;
-
-  change() {
-    console.log(this.name);
-  }
+  type = this.$route.params.type as moneyType;
 
   select(item: string) {
     this.selectIcon = item;
-    console.log(this.selectIcon);
-    console.log(this.type);
   }
 
   goBack() {
@@ -64,14 +59,15 @@ export default class LabelAddExpenses extends Vue {
   }
 
   finish() {
+    const labelList = labelListModel.fetch();
     const name = this.name;
-    const nameList = defaultLabels.map((item: { name: string; }) => item.name);
+    const nameList = labelList.map((item: { name: string; }) => item.name);
     if (name === '') {
       window.alert('请输入类别名称');
     } else if (nameList.indexOf(name) >= 0) {
       window.alert('该类别名称已存在');
     } else {
-      defaultLabels.push({name: this.name, svg: this.selectIcon, type: this.type});
+      labelListModel.create({name: this.name, svg: this.selectIcon, type: this.type})
       window.alert('已添加');
       this.$router.push('/money/edit');
     }

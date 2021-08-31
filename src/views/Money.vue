@@ -10,8 +10,7 @@
           <Input :value.sync="record.amount"/>
           <Time @update:value="record.date = $event"/>
           <Notes @update:value="record.notes = $event"/>
-          <Labels :data-source.sync="labels"
-                  :type="record.type"
+          <Labels :type="record.type"
                   :selected-labels.sync="record.labels"
           />
         </div>
@@ -36,16 +35,13 @@ import Notes from '@/components/Money/Notes.vue';
 import Labels from '@/components/Money/Labels.vue';
 import {RecordItem} from '@/custom';
 import recordListModel from '@/models/recordListModel';
-import labelListModel from '@/models/labelListModel';
 
 const recordList = recordListModel.fetch();
-const labelList = labelListModel.fetch();
 
 @Component({
   components: {Labels, Notes, Time, Input, Type, Title}
 })
 export default class Money extends Vue {
-  labels = labelList;
   record: RecordItem = {type: '-', amount: '0.00', date: '', notes: '', labels: {name: '三餐', svg: '三餐', type: '-'}};
   recordList: RecordItem[] = recordList;
 

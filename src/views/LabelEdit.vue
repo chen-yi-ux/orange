@@ -15,12 +15,12 @@
     </div>
     <div class="content">
       <ul class="labels">
-        <li v-for="(item, index) in dataSource" :key="index">
+        <li v-for="item in dataSource" :key="item.name">
           <div class="wrapper">
             <Icon :name="item.svg"/>
             <span>{{ item.name }}</span>
           </div>
-          <div class="icon-wrapper">
+          <div class="icon-wrapper" @click="remove(item)">
             <Icon name="删除"/>
           </div>
         </li>
@@ -37,7 +37,8 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
-import defaultLabels from '@/constants/defaultLabels';
+import {Label} from '@/custom';
+import labelListModel from '@/models/labelListModel';
 
 @Component
 export default class LabelEdit extends Vue {
@@ -46,7 +47,8 @@ export default class LabelEdit extends Vue {
   }
 
   get dataSource() {
-    return defaultLabels.filter((item) => item.type === this.type);
+    const labelList = labelListModel.fetch();
+    return labelList.filter((item) => item.type === this.type);
   }
 
   type = '-';
@@ -56,7 +58,12 @@ export default class LabelEdit extends Vue {
   }
 
   goAdd() {
-      this.$router.push(`/money/edit/add/${this.type}`);
+    this.$router.push(`/money/edit/add/${this.type}`);
+  }
+
+  remove(item: Label) {
+    labelListModel.remove(item);
+    this.$forceUpdate();
   }
 }
 </script>
