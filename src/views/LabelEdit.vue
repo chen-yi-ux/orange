@@ -56,12 +56,7 @@ export default class LabelEdit extends Vue {
   }
 
   goAdd() {
-    if (this.type === '-') {
-      this.$router.push('/money/edit/add/expenses');
-    } else {
-      this.$router.push('/money/edit/add/income');
-    }
-
+      this.$router.push(`/money/edit/add/${this.type}`);
   }
 }
 </script>

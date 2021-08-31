@@ -3,13 +3,14 @@
     <div class="title">
       <Icon name="left-white" @click="goBack"/>
       <span class="content">
-        <slot/>
+        添加{{ typeName }}类别
       </span>
-      <span class="finish" @click="goBack">完成</span>
+      <span class="finish" @click="finish">完成</span>
     </div>
     <div class="name">
       <span>类别名称</span>
-      <input type="text" placeholder="<输入名称>">
+      <input type="text" placeholder="<输入名称>"
+             v-model="name" @input="change">
     </div>
     <div class="icons">
       <span>图标</span>
@@ -28,20 +29,52 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component} from 'vue-property-decorator';
+import {Component, Model, Prop} from 'vue-property-decorator';
 import AllLabels from '@/constants/AllLabels';
+import defaultLabels from '@/constants/defaultLabels';
+import {moneyType} from '@/custom';
 
 @Component
 export default class LabelAddExpenses extends Vue {
   dataSource = AllLabels;
-  selectIcon: string = '';
+  selectIcon: string = AllLabels[0];
+  name = '';
+  type = this.$route.params.type;
+
+  change() {
+    console.log(this.name);
+  }
 
   select(item: string) {
     this.selectIcon = item;
+    console.log(this.selectIcon);
+    console.log(this.type);
   }
 
   goBack() {
     this.$router.back();
+  }
+
+  get typeName() {
+    const typeList = {
+      '-': '支出',
+      '+': '收入'
+    };
+    return typeList[this.$route.params.type as moneyType];
+  }
+
+  finish() {
+    const name = this.name;
+    const nameList = defaultLabels.map((item: { name: string; }) => item.name);
+    if (name === '') {
+      window.alert('请输入类别名称');
+    } else if (nameList.indexOf(name) >= 0) {
+      window.alert('该类别名称已存在');
+    } else {
+      defaultLabels.push({name: this.name, svg: this.selectIcon, type: this.type});
+      window.alert('已添加');
+      this.$router.push('/money/edit');
+    }
   }
 }
 </script>
@@ -130,16 +163,20 @@ export default class LabelAddExpenses extends Vue {
             width: 80%;
             height: 71px;
             margin-bottom: 10px;
+
             &.selected {
               background: lavenderblush;
+
               svg {
                 animation: shake 0.3s linear;
               }
             }
+
             > .icon {
               width: 45px;
               height: 45px;
             }
+
             @keyframes shake {
               0% {
                 transform: rotate(0deg);

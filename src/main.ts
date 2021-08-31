@@ -6,7 +6,7 @@ import store from './store';
 import Nav from '@/components/Nav.vue';
 import Layout from '@/components/Layout.vue';
 import Icon from '@/components/Icon.vue';
-import LabelAdd from '@/components/LabelAdd.vue';
+import LabelAdd from '@/views/LabelAdd.vue';
 
 import moment from 'moment';
 import 'moment/locale/zh-cn';
