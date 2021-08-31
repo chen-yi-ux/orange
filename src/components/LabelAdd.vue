@@ -15,8 +15,8 @@
       <span>图标</span>
       <div class="scrollArea">
         <ul>
-          <li v-for="item in dataSource" :key="item">
-            <div class="icon-wrapper">
+          <li v-for="item in dataSource" :key="item" @click="select(item)">
+            <div class="icon-wrapper" :class="{selected: selectIcon === item}">
               <Icon :name="item"/>
             </div>
           </li>
@@ -34,6 +34,11 @@ import AllLabels from '@/constants/AllLabels';
 @Component
 export default class LabelAddExpenses extends Vue {
   dataSource = AllLabels;
+  selectIcon: string = '';
+
+  select(item: string) {
+    this.selectIcon = item;
+  }
 
   goBack() {
     this.$router.back();
@@ -98,14 +103,17 @@ export default class LabelAddExpenses extends Vue {
     font-size: 18px;
     height: calc(100% - 105px);
     padding: 10px;
-    > .scrollArea{
+
+    > .scrollArea {
       overflow: auto;
       height: 95%;
+
       > ul {
         display: flex;
         align-items: center;
         flex-wrap: wrap;
         padding-top: 10px;
+
         > li {
           width: 25%;
           height: 30%;
@@ -113,7 +121,7 @@ export default class LabelAddExpenses extends Vue {
           align-items: center;
           justify-content: center;
 
-          > .icon-wrapper{
+          > .icon-wrapper {
             border: 1px solid #e3e3e3;
             display: flex;
             align-items: center;
@@ -122,10 +130,32 @@ export default class LabelAddExpenses extends Vue {
             width: 80%;
             height: 71px;
             margin-bottom: 10px;
-
+            &.selected {
+              background: lavenderblush;
+              svg {
+                animation: shake 0.3s linear;
+              }
+            }
             > .icon {
               width: 45px;
               height: 45px;
+            }
+            @keyframes shake {
+              0% {
+                transform: rotate(0deg);
+              }
+              20% {
+                transform: rotate(20deg);
+              }
+              40% {
+                transform: rotate(0deg);
+              }
+              80% {
+                transform: rotate(-20deg);
+              }
+              100% {
+                transform: rotate(0deg);
+              }
             }
           }
         }
