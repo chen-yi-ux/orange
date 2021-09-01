@@ -26,7 +26,6 @@ const labelListModel: LabelListModel = {
   remove(item) {
     for (let i = 0; i < this.data.length; i++) {
       if (this.data[i].name === item.name) {
-        console.log(this.data);
         this.data.splice(i, 1);
         window.alert('已删除');
       }
