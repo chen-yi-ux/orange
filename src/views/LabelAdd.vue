@@ -69,7 +69,7 @@ export default class LabelAddExpenses extends Vue {
     } else {
       labelListModel.create({name: this.name, svg: this.selectIcon, type: this.type})
       window.alert('已添加');
-      this.$router.push('/money/edit');
+      this.$router.back();
     }
   }
 }

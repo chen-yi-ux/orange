@@ -40,18 +40,19 @@ import {Component} from 'vue-property-decorator';
 import {Label} from '@/custom';
 import labelListModel from '@/models/labelListModel';
 
+const labelList = labelListModel.fetch();
+
 @Component
 export default class LabelEdit extends Vue {
+  type = '-';
+
   goBack() {
     this.$router.back();
   }
 
   get dataSource() {
-    const labelList = labelListModel.fetch();
     return labelList.filter((item) => item.type === this.type);
   }
-
-  type = '-';
 
   select(type: string) {
     this.type = type;
