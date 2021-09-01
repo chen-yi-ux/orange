@@ -46,13 +46,12 @@ export default class Money extends Vue {
   recordList: RecordItem[] = recordList;
 
   saveRecord() {
-    const record2 = JSON.parse(JSON.stringify(this.record));
-    this.recordList.push(record2);
+    recordListModel.create(this.record);
   }
 
   @Watch('recordList')
   onRecordListChanged() {
-    recordListModel.save(this.recordList);
+    recordListModel.save();
     this.$router.push('/detail');
   }
 
