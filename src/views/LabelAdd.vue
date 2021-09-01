@@ -59,7 +59,7 @@ export default class LabelAddExpenses extends Vue {
   }
 
   finish() {
-    const labelList = labelListModel.fetch();
+    const labelList = window.labelList;
     const name = this.name;
     const nameList = labelList.map((item: { name: string; }) => item.name);
     if (name === '') {
@@ -67,7 +67,7 @@ export default class LabelAddExpenses extends Vue {
     } else if (nameList.indexOf(name) >= 0) {
       window.alert('该类别名称已存在');
     } else {
-      labelListModel.create({name: this.name, svg: this.selectIcon, type: this.type})
+      labelListModel.create({id: '', name: this.name, svg: this.selectIcon, type: this.type})
       window.alert('已添加');
       this.$router.back();
     }

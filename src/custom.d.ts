@@ -13,4 +13,10 @@ export type Label = {
   type: moneyType
 }
 
-type moneyType = '-'|'+'
+type moneyType = '-' | '+'
+
+declare global{
+  interface Window {
+    labelList: Label[];
+  }
+}
