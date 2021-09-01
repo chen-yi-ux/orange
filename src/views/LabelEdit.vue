@@ -40,7 +40,6 @@
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import {Label} from '@/custom';
-import store from '@/store/index2';
 
 @Component
 export default class LabelEdit extends Vue {
@@ -50,8 +49,12 @@ export default class LabelEdit extends Vue {
     this.$router.back();
   }
 
+  beforeCreate(){
+    this.$store.commit('fetchLabels');
+  }
+
   get dataSource() {
-    return store.labelList.filter((item) => item.type === this.type);
+    return this.$store.state.labelList.filter((item:Label) => item.type === this.type);
   }
 
   select(type: string) {
@@ -63,7 +66,7 @@ export default class LabelEdit extends Vue {
   }
 
   remove(item: Label) {
-    store.removeLabel(item);
+    this.$store.commit('removeLabel', item);
     this.$forceUpdate();
   }
 }

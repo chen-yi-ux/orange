@@ -30,17 +30,18 @@
 import Vue from 'vue';
 import {Component, Prop, Watch} from 'vue-property-decorator';
 import {Label} from '@/custom';
-import store from '@/store/index2';
-
 
 @Component
 export default class Labels extends Vue {
   @Prop(String) type!: string;
   @Prop() selectedLabels!: Label;
 
+  beforeCreate(){
+    this.$store.commit('fetchLabels');
+  }
+
   get dataSource() {
-    const labelList = store.labelList;
-    return labelList.filter((item) => item.type === this.type);
+    return this.$store.state.labelList.filter((item:Label) => item.type === this.type);
   }
 
   @Watch('type')

@@ -34,17 +34,19 @@ import Time from '@/components/Money/Time.vue';
 import Notes from '@/components/Money/Notes.vue';
 import Labels from '@/components/Money/Labels.vue';
 import {RecordItem} from '@/custom';
-import store from '@/store/index2';
 
 @Component({
   components: {Labels, Notes, Time, Input, Type, Title}
 })
 export default class Money extends Vue {
-  record: RecordItem = {type: '-', amount: '0.00', date: '', notes: '', labels: {id: '', name: '', svg: '', type: '-'}};
-  recordList: RecordItem[] = store.recordList;
+  record: RecordItem = {type: '-', amount: '0.00', date: '', notes: '', labels: {id: '', name: '三餐', svg: '三餐', type: '-'}};
+
+  get recordList(){
+    return this.$store.state.recordList;
+  }
 
   saveRecord() {
-    store.createRecord(this.record);
+    this.$store.commit('createRecord', this.record);
     this.$router.push('/detail');
   }
 

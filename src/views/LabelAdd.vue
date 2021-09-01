@@ -32,8 +32,6 @@ import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import AllLabels from '@/constants/AllLabels';
 import {moneyType} from '@/custom';
-import store from '@/store/index2';
-
 
 @Component
 export default class LabelAddExpenses extends Vue {
@@ -59,15 +57,14 @@ export default class LabelAddExpenses extends Vue {
   }
 
   finish() {
-    const labelList = store.labelList;
-    const name = this.name;
-    const nameList = labelList.map((item: { name: string; }) => item.name);
-    if (name === '') {
+    this.$store.commit('fetchLabels');
+    const nameList = this.$store.state.labelList.map((item: { name: string; }) => item.name);
+    if (this.name === '') {
       window.alert('请输入类别名称');
-    } else if (nameList.indexOf(name) >= 0) {
+    } else if (nameList.indexOf(this.name) >= 0) {
       window.alert('该类别名称已存在');
     } else {
-      store.createLabel({id: '', name: this.name, svg: this.selectIcon, type: this.type})
+      this.$store.commit('createLabel', {id: '', name: this.name, svg: this.selectIcon, type: this.type})
       window.alert('已添加');
       this.$router.back();
     }
