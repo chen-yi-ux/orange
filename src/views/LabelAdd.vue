@@ -32,7 +32,6 @@ import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import AllLabels from '@/constants/AllLabels';
 import {moneyType} from '@/custom';
-import labelListModel from '@/models/labelListModel';
 import store from '@/store/index2';
 
 
@@ -68,7 +67,7 @@ export default class LabelAddExpenses extends Vue {
     } else if (nameList.indexOf(name) >= 0) {
       window.alert('该类别名称已存在');
     } else {
-      labelListModel.create({id: '', name: this.name, svg: this.selectIcon, type: this.type})
+      store.createLabel({id: '', name: this.name, svg: this.selectIcon, type: this.type})
       window.alert('已添加');
       this.$router.back();
     }

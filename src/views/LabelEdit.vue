@@ -40,7 +40,6 @@
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import {Label} from '@/custom';
-import labelListModel from '@/models/labelListModel';
 import store from '@/store/index2';
 
 @Component
@@ -64,7 +63,7 @@ export default class LabelEdit extends Vue {
   }
 
   remove(item: Label) {
-    labelListModel.remove(item);
+    store.removeLabel(item);
     this.$forceUpdate();
   }
 }

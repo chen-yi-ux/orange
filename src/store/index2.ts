@@ -1,9 +1,9 @@
-import recordListModel from '@/models/recordListModel';
-import labelListModel from '@/models/labelListModel';
+import recordStore from '@/store/recordStore';
+import labelStore from '@/store/labelStore';
 
 const store = {
-  recordList: recordListModel.fetch(),
-  labelList: labelListModel.fetch()
+  ...recordStore,
+  ...labelStore
 };
 
 export default store;

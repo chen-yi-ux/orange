@@ -30,8 +30,6 @@
 import Vue from 'vue';
 import {Component, Prop, Watch} from 'vue-property-decorator';
 import {Label} from '@/custom';
-import defaultLabels from '@/constants/defaultLabels';
-import labelListModel from '@/models/labelListModel';
 import store from '@/store/index2';
 
 
