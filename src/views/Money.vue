@@ -26,7 +26,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component, Watch} from 'vue-property-decorator';
+import {Component} from 'vue-property-decorator';
 import Title from '@/components/Money/Title.vue';
 import Type from '@/components/Money/Type.vue';
 import Input from '@/components/Money/Input.vue';
@@ -36,22 +36,15 @@ import Labels from '@/components/Money/Labels.vue';
 import {RecordItem} from '@/custom';
 import recordListModel from '@/models/recordListModel';
 
-const recordList = recordListModel.fetch();
-
 @Component({
   components: {Labels, Notes, Time, Input, Type, Title}
 })
 export default class Money extends Vue {
   record: RecordItem = {type: '-', amount: '0.00', date: '', notes: '', labels: {id: '', name: '三餐', svg: '三餐', type: '-'}};
-  recordList: RecordItem[] = recordList;
+  recordList: RecordItem[] = window.recordList;
 
   saveRecord() {
     recordListModel.create(this.record);
-  }
-
-  @Watch('recordList')
-  onRecordListChanged() {
-    recordListModel.save();
     this.$router.push('/detail');
   }
 

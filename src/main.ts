@@ -13,6 +13,7 @@ import 'moment/locale/zh-cn';
 import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
 import labelListModel from '@/models/labelListModel';
+import recordListModel from '@/models/recordListModel';
 
 moment.locale('zh-cn'); //设置语言 或 moment.lang('zh-cn');
 Vue.prototype.$moment = moment;//挂载到当前vue实例对象
@@ -26,6 +27,7 @@ Vue.component('Layout', Layout);
 Vue.component('Icon', Icon);
 Vue.component('LabelAdd', LabelAdd);
 
+window.recordList = recordListModel.fetch();
 window.labelList = labelListModel.fetch();
 
 new Vue({
