@@ -17,7 +17,9 @@ type moneyType = '-' | '+'
 
 declare global{
   interface Window {
-    recordList: RecordItem[];
-    labelList: Label[];
+    store:{
+      recordList: RecordItem[];
+      labelList: Label[];
+    }
   }
 }

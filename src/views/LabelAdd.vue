@@ -33,6 +33,7 @@ import {Component} from 'vue-property-decorator';
 import AllLabels from '@/constants/AllLabels';
 import {moneyType} from '@/custom';
 import labelListModel from '@/models/labelListModel';
+import store from '@/store/index2';
 
 
 @Component
@@ -59,7 +60,7 @@ export default class LabelAddExpenses extends Vue {
   }
 
   finish() {
-    const labelList = window.labelList;
+    const labelList = store.labelList;
     const name = this.name;
     const nameList = labelList.map((item: { name: string; }) => item.name);
     if (name === '') {

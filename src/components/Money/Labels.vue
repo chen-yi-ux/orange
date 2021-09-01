@@ -32,6 +32,7 @@ import {Component, Prop, Watch} from 'vue-property-decorator';
 import {Label} from '@/custom';
 import defaultLabels from '@/constants/defaultLabels';
 import labelListModel from '@/models/labelListModel';
+import store from '@/store/index2';
 
 
 @Component
@@ -40,7 +41,7 @@ export default class Labels extends Vue {
   @Prop() selectedLabels!: Label;
 
   get dataSource() {
-    const labelList = window.labelList;
+    const labelList = store.labelList;
     return labelList.filter((item) => item.type === this.type);
   }
 

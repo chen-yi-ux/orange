@@ -27,9 +27,6 @@ Vue.component('Layout', Layout);
 Vue.component('Icon', Icon);
 Vue.component('LabelAdd', LabelAdd);
 
-window.recordList = recordListModel.fetch();
-window.labelList = labelListModel.fetch();
-
 new Vue({
   router,
   store,

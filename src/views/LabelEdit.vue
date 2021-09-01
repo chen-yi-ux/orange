@@ -41,6 +41,7 @@ import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import {Label} from '@/custom';
 import labelListModel from '@/models/labelListModel';
+import store from '@/store/index2';
 
 @Component
 export default class LabelEdit extends Vue {
@@ -51,7 +52,7 @@ export default class LabelEdit extends Vue {
   }
 
   get dataSource() {
-    return window.labelList.filter((item) => item.type === this.type);
+    return store.labelList.filter((item) => item.type === this.type);
   }
 
   select(type: string) {
