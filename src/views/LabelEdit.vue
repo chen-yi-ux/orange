@@ -14,17 +14,19 @@
       </ul>
     </div>
     <div class="content">
-      <ul class="labels">
-        <li v-for="item in dataSource" :key="item.name">
-          <div class="wrapper">
-            <Icon :name="item.svg"/>
-            <span>{{ item.name }}</span>
-          </div>
-          <div class="icon-wrapper" @click="remove(item)">
-            <Icon name="删除"/>
-          </div>
-        </li>
-      </ul>
+      <div class="labels">
+        <ul>
+          <li v-for="item in dataSource" :key="item.name">
+            <div class="wrapper">
+              <Icon :name="item.svg"/>
+              <span>{{ item.name }}</span>
+            </div>
+            <div class="icon-wrapper" @click="remove(item)">
+              <Icon name="删除"/>
+            </div>
+          </li>
+        </ul>
+      </div>
       <div class="add" @click="goAdd">
         <Icon name="add"/>
         添加类别
@@ -117,14 +119,14 @@ export default class LabelEdit extends Vue {
     }
   }
 
-  .content {
+  > .content {
     height: calc(100% - 110px);
 
     > .labels {
       height: 85%;
       overflow: auto;
 
-      > li {
+      > ul > li {
         display: flex;
         justify-content: space-between;
         align-items: center;
