@@ -42,7 +42,7 @@ const recordList = recordListModel.fetch();
   components: {Labels, Notes, Time, Input, Type, Title}
 })
 export default class Money extends Vue {
-  record: RecordItem = {type: '-', amount: '0.00', date: '', notes: '', labels: {name: '三餐', svg: '三餐', type: '-'}};
+  record: RecordItem = {type: '-', amount: '0.00', date: '', notes: '', labels: {id: '', name: '三餐', svg: '三餐', type: '-'}};
   recordList: RecordItem[] = recordList;
 
   saveRecord() {

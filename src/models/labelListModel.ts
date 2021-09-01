@@ -1,5 +1,6 @@
 import {Label} from '@/custom';
 import defaultLabels from '@/constants/defaultLabels';
+import createId from '@/lib/createId';
 
 type LabelListModel = {
   data: Label[],
@@ -18,7 +19,8 @@ const labelListModel: LabelListModel = {
     return this.data;
   },
   create(item) {
-    this.data.push({name: item.name, svg: item.svg, type: item.type});
+    const id = createId().toString();
+    this.data.push({id, name: item.name, svg: item.svg, type: item.type});
     this.save();
   },
   remove(item) {

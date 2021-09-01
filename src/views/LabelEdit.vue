@@ -41,6 +41,7 @@ import {Label} from '@/custom';
 import labelListModel from '@/models/labelListModel';
 
 const labelList = labelListModel.fetch();
+console.log(labelList)
 
 @Component
 export default class LabelEdit extends Vue {
