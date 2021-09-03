@@ -5,7 +5,6 @@ import createId from '@/lib/createId';
 
 Vue.use(Vuex)  // 把 store 绑到 Vue.prototype.$store = store
 
-
 const store = new Vuex.Store({
   state: {
     recordList: [],
@@ -27,8 +26,7 @@ const store = new Vuex.Store({
       state.labelList = JSON.parse(window.localStorage.getItem('labelList') || '[]');
     },
     createLabel(state, item) {
-      const id = createId().toString();
-      state.labelList.push({id, name: item.name, svg: item.svg, type: item.type});
+      state.labelList.push({name: item.name, svg: item.svg, type: item.type});
       store.commit('saveLabels');
     },
     removeLabel(state, item) {

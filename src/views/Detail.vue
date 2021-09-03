@@ -7,15 +7,17 @@
           <span class="title-wrapper">橙子记账本</span>
         </div>
         <div class="title-down">
-          <div class="month">9月</div>
+          <div class="month">
+            9月
+          </div>
           <div class="money">
             <div class="income">
               <span class="income-content">收入</span>
-              <span class="income-amount">0.00</span>
+              <span class="income-amount">{{this.incomeAmount || 0}}</span>
             </div>
             <div class="expenses">
               <span class="expenses-content">支出</span>
-              <span class="expenses-amount">0.00</span>
+              <span class="expenses-amount">{{ this.expensesAmount || 0 }}</span>
             </div>
           </div>
         </div>
@@ -24,8 +26,8 @@
         <ol>
           <li v-for="(group, index) in result" :key="index">
             <div class="item1">
-              <span class="date">{{ group.title }}</span>
-              <span class="amount1">money</span>
+              <span class="date">{{ beautify(group.title) }}</span>
+              <span class="amount1">{{groupAmount(group)}}</span>
             </div>
             <ol>
               <li v-for="item in group.items" :key="item.id">
@@ -34,7 +36,7 @@
                     <Icon :name="item.labels.svg"/>
                     <span class="name-wrapper">{{ item.labels.name }}</span>
                   </div>
-                  <span class="amount2">{{ item.amount }}</span>
+                  <span class="amount2">{{ itemAmount(item) }}</span>
                 </div>
               </li>
             </ol>
@@ -49,9 +51,14 @@
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import {RecordItem, RootState} from '@/custom';
+import moment from 'moment';
+import clone from '@/lib/clone';
+
+type GroupedList = {title: string, items: RecordItem[]};
 
 @Component
 export default class Detail extends Vue {
+
   beforeCreate() {
     this.$store.commit('fetchRecords');
   }
@@ -62,15 +69,86 @@ export default class Detail extends Vue {
 
   get result() {
     const {recordList} = this;
-    type HashTableValue = { title: string, items: RecordItem[] };
-    const hashTable: { [key: string]: HashTableValue } = {};
-    for (let i = 0; i < recordList.length; i++) {
-      const date = recordList[i].date.substring(0, 9);
-      hashTable[date] = hashTable[date] || {title: date, items: []};
-      hashTable[date].items.push(recordList[i]);
+    if (recordList.length === 0) { return [];}
+    const newList = clone(recordList).sort((a, b) => moment(b.date).valueOf() - moment(a.date).valueOf());
+    const groupedList = [{title: moment(newList[0].date).format('YYYY-MM-DD'), items:[newList[0]]}];
+    for (let i = 1; i < newList.length; i++) {
+      const current = newList[i];
+      const last = groupedList[groupedList.length - 1];
+      if(moment(last.title).isSame(moment(current.date), 'day')){
+        last.items.push(current);
+      }
+      else{
+        groupedList.push({title: moment(current.date).format('YYYY-MM-DD'), items: [current]})
+      }
     }
-    console.log(hashTable);
-    return hashTable;
+    return groupedList;
+  }
+
+  beautify(time: string) {
+    const now = moment();
+    const day = moment(time);
+    if (day.isSame(now, 'day')) {
+      return '今天';
+    } else if (day.isSame(now.subtract(1, 'day'), 'day')) {
+      return '昨天';
+    } else if (day.isSame(now, 'year')) {
+      return day.format('M月D日');
+    } else {
+      return day.format('ll');
+    }
+  }
+
+  get incomeAmount(){
+    let income = 0;
+    let group: GroupedList;
+    for(group of this.result){
+      let item: RecordItem;
+      for(item of group.items){
+        if(item.type === '+'){
+          income += item.amount;
+        }
+      }
+    }
+    return income;
+  }
+  get expensesAmount(){
+    let expenses = 0;
+    let group: GroupedList;
+    for(group of this.result){
+      let item: RecordItem;
+      for(item of group.items){
+        if(item.type === '-'){
+          expenses += item.amount;
+        }
+      }
+    }
+    return expenses;
+  }
+
+  groupAmount(group: GroupedList){
+    let total = 0;
+    let item: RecordItem;
+    for(item of group.items){
+      if(item.type === '+'){
+        total += item.amount;
+      }else if(item.type === '-'){
+        total -= item.amount;
+      }
+    }
+    if(total >= 0){
+      return ('+' + total);
+    }else if (total < 0) {
+      return total;
+    }
+  }
+
+  itemAmount(item: RecordItem) {
+    if (item.type === '+') {
+      return ('+' + item.amount);
+    } else if (item.type === '-') {
+      return ('-' + item.amount);
+    }
   }
 }
 </script>

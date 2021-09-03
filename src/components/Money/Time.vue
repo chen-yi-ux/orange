@@ -18,13 +18,13 @@ export default class Time extends Vue {
   moment = moment;
 
   getCurrentDate(){
-    const now = moment().format('lll')
+    const now = moment();
     this.$emit('update:value', now);
     return now;
   }
 
   changeDate(moment: Moment) {
-    const date = moment.format('lll');
+    const date = moment.format('YYYY-MM-DD HH:mm');
     this.$emit('update:value', date);
   }
 }
