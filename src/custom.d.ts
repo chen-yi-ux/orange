@@ -4,15 +4,15 @@ type RootState = {
 }
 
 type RecordItem = {
+  id?: number,
   type: string,
-  amount: string,
+  amount: number,
   date: string,
   notes: string,
   labels: Label
 }
 
 export type Label = {
-  id: string,
   name: string,
   svg: string,
   type: moneyType
