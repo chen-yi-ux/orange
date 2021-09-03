@@ -21,28 +21,25 @@
         </div>
       </div>
       <div class="content">
-        <ul>
-          <li>
+        <ol>
+          <li v-for="(group, index) in result" :key="index">
             <div class="item1">
-              <span class="date">9月1日</span>
-              <span class="amount1">-20</span>
+              <span class="date">{{ group.title }}</span>
+              <span class="amount1">money</span>
             </div>
-            <div class="item2">
-              <div class="name">
-                <Icon name="三餐"/>
-                <span class="name-wrapper">吃饭</span>
-              </div>
-              <span class="amount2">-20</span>
-            </div>
-            <div class="item2">
-              <div class="name">
-                <Icon name="三餐"/>
-                <span class="name-wrapper">吃饭</span>
-              </div>
-              <span class="amount2">-20</span>
-            </div>
+            <ol>
+              <li v-for="item in group.items" :key="item.id">
+                <div class="item2">
+                  <div class="name">
+                    <Icon :name="item.labels.svg"/>
+                    <span class="name-wrapper">{{ item.labels.name }}</span>
+                  </div>
+                  <span class="amount2">{{ item.amount }}</span>
+                </div>
+              </li>
+            </ol>
           </li>
-        </ul>
+        </ol>
       </div>
     </Layout>
   </div>
@@ -51,10 +48,30 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
+import {RecordItem, RootState} from '@/custom';
 
 @Component
 export default class Detail extends Vue {
+  beforeCreate() {
+    this.$store.commit('fetchRecords');
+  }
 
+  get recordList() {
+    return (this.$store.state as RootState).recordList;
+  }
+
+  get result() {
+    const {recordList} = this;
+    type HashTableValue = { title: string, items: RecordItem[] };
+    const hashTable: { [key: string]: HashTableValue } = {};
+    for (let i = 0; i < recordList.length; i++) {
+      const date = recordList[i].date.substring(0, 9);
+      hashTable[date] = hashTable[date] || {title: date, items: []};
+      hashTable[date].items.push(recordList[i]);
+    }
+    console.log(hashTable);
+    return hashTable;
+  }
 }
 </script>
 
@@ -90,7 +107,7 @@ export default class Detail extends Vue {
     padding: 0 20px;
     height: 50px;
     color: #FFF2DD;
-    box-shadow: 0 2px 2px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 
 
     > .month {
@@ -100,21 +117,24 @@ export default class Detail extends Vue {
       align-items: center;
     }
 
-    > .money{
+    > .money {
       width: 70%;
       display: flex;
       align-items: center;
       justify-content: space-between;
+
       > .income {
         display: flex;
         justify-content: center;
         align-items: center;
         font-size: 20px;
         flex-wrap: wrap;
-        > .income-content{
+
+        > .income-content {
           margin-right: 10px;
         }
-        > .income-amount{
+
+        > .income-amount {
 
         }
       }
@@ -126,10 +146,12 @@ export default class Detail extends Vue {
         font-size: 20px;
         flex-wrap: wrap;
         padding-right: 10px;
-        > .expenses-content{
+
+        > .expenses-content {
           margin-right: 10px;
         }
-        > .expenses-amount{
+
+        > .expenses-amount {
 
         }
       }
@@ -139,40 +161,47 @@ export default class Detail extends Vue {
   }
 
 }
-.content{
+
+.content {
   height: calc(100% - 120px);
   overflow: auto;
 
-  > ul > li{
-    border-bottom: 1px solid #DADADA;
-     > .item1{
-       display: flex;
-       justify-content: space-between;
-       align-items: center;
-       border-bottom: 1px solid #e3e3e3;
-       padding: 4px 10px;
-       color: #B0ACAC;
-       font-size: 14px;
-     }
-    > .item2{
+  > ol > li {
+    border-bottom: 1px solid #e3e3e3;
+
+    > .item1 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #F9F9F9;
+      padding: 4px 10px;
+      color: #B0ACAC;
+      font-size: 14px;
+    }
+
+    > ol > li > .item2 {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 5px 10px;
       font-size: 18px;
-      > .name{
+
+      > .name {
         display: flex;
         justify-content: center;
         align-items: center;
-        > .icon{
+
+        > .icon {
           width: 30px;
           height: 30px;
         }
-        > .name-wrapper{
+
+        > .name-wrapper {
           padding-left: 10px;
         }
       }
-      > .amount2{
+
+      > .amount2 {
         color: #306ECC;
       }
     }

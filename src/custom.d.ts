@@ -1,3 +1,8 @@
+type RootState = {
+  recordList: RecordItem[],
+  labelList: Label[]
+}
+
 type RecordItem = {
   type: string,
   amount: string,

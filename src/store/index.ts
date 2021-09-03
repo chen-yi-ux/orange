@@ -1,15 +1,16 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {Label, RecordItem} from '@/custom';
+import {Label, RecordItem, RootState} from '@/custom';
 import createId from '@/lib/createId';
 
 Vue.use(Vuex)  // 把 store 绑到 Vue.prototype.$store = store
 
+
 const store = new Vuex.Store({
   state: {
-    recordList: [] as RecordItem[],
-    labelList: [] as Label[],
-  },
+    recordList: [],
+    labelList: []
+  } as RootState,
   mutations: {
     fetchRecords(state) {
       state.recordList = JSON.parse(window.localStorage.getItem('recordList') || '[]') as RecordItem[];
