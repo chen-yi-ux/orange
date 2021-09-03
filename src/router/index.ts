@@ -6,6 +6,7 @@ import Chart from '@/views/Chart.vue';
 import NotFound from '@/views/NotFound.vue';
 import LabelEdit from '@/views/LabelEdit.vue';
 import LabelAdd from '@/views/LabelAdd.vue';
+import RecordEdit from '@/views/RecordEdit.vue';
 
 Vue.use(VueRouter)
 
@@ -17,6 +18,10 @@ const routes: Array<RouteConfig> = [
   {
     path: '/detail',
     component: Detail
+  },
+  {
+    path: '/detail/edit/:id',
+    component: RecordEdit
   },
   {
     path: '/money',

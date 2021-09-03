@@ -30,7 +30,7 @@
               <span class="amount1">{{groupAmount(group)}}</span>
             </div>
             <ol>
-              <li v-for="item in group.items" :key="item.id">
+              <router-link class="record" v-for="item in group.items" :key="item.id" :to="`/detail/edit/${item.id}`">
                 <div class="item2">
                   <div class="name">
                     <Icon :name="item.labels.svg"/>
@@ -38,7 +38,7 @@
                   </div>
                   <span class="amount2">{{ itemAmount(item) }}</span>
                 </div>
-              </li>
+              </router-link>
             </ol>
           </li>
         </ol>
@@ -58,7 +58,6 @@ type GroupedList = {title: string, items: RecordItem[]};
 
 @Component
 export default class Detail extends Vue {
-
   beforeCreate() {
     this.$store.commit('fetchRecords');
   }
@@ -257,13 +256,13 @@ export default class Detail extends Vue {
       font-size: 14px;
     }
 
-    > ol > li > .item2 {
+    > ol > .record > .item2 {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 5px 10px;
       font-size: 18px;
-
+      color: black;
       > .name {
         display: flex;
         justify-content: center;
