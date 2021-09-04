@@ -1,16 +1,16 @@
 <template>
   <div class="edit">
     <div class="title">
-      <Icon name="left" class="titleIcon"/>
+      <Icon name="left" class="titleIcon" @click="goBack"/>
       <span class="title-wrapper">编辑支出</span>
     </div>
     <div class="content">
       <div class="money">
         <div class="label">
-          <Icon name="三餐" class="labelIcon"/>
-          <span class="label-wrapper">三餐</span>
+          <Icon :name="recordItem.labels.svg" class="labelIcon"/>
+          <span class="label-wrapper">{{ recordItem.labels.name }}</span>
         </div>
-        <span class="amount">￥0.00</span>
+        <span class="amount">￥{{recordItem.amount}}</span>
       </div>
       <div class="xxx">
         <div class="list">
@@ -19,19 +19,19 @@
               <Icon name="time" class="icon"/>
               <span class="wrapper">时间</span>
             </div>
-            <div class="input">2021年9月4日</div>
+            <div class="input">{{recordItem.date}}</div>
           </div>
           <div class="content-wrapper">
             <div class="main">
               <Icon name="note" class="icon"/>
               <span class="wrapper">备注</span>
             </div>
-            <div class="input">hhhh</div>
+            <div class="input">{{recordItem.notes}}</div>
           </div>
         </div>
         <div class="footer">
           <div class="save">保存</div>
-          <div class="delete">删除</div>
+          <div class="delete" @click="remove(record)">删除</div>
         </div>
       </div>
     </div>
@@ -44,14 +44,29 @@ import Vue from 'vue';
 import Time from '@/components/Money/Time.vue';
 import Notes from '@/components/Money/Notes.vue';
 import {Component} from 'vue-property-decorator';
+import {RecordItem} from '@/custom';
 
 @Component({
   components: {Notes, Time}
 })
 export default class RecordEdit extends Vue {
-  created() {
-    const id = this.$route.params.id;
+  id = parseInt(this.$route.params.id);
+  record = this.$store.state.recordList.filter((item:RecordItem) => item.id === this.id)[0];
 
+  get recordItem(){
+    console.log(this.record);
+    console.log(this.record.id);
+    return this.record;
+  }
+
+  goBack(){
+    this.$router.back();
+  }
+
+  remove(record: RecordItem){
+    record = this.record;
+    this.$store.commit('removeRecord', record);
+    this.$router.back();
   }
 }
 </script>

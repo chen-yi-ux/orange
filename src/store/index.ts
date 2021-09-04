@@ -1,9 +1,9 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from 'vue';
+import Vuex from 'vuex';
 import {Label, RecordItem, RootState} from '@/custom';
 import createId from '@/lib/createId';
 
-Vue.use(Vuex)  // 把 store 绑到 Vue.prototype.$store = store
+Vue.use(Vuex);  // 把 store 绑到 Vue.prototype.$store = store
 
 const store = new Vuex.Store({
   state: {
@@ -14,13 +14,22 @@ const store = new Vuex.Store({
     fetchRecords(state) {
       state.recordList = JSON.parse(window.localStorage.getItem('recordList') || '[]') as RecordItem[];
     },
-    createRecord(state, record){
+    createRecord(state, record) {
       const record2: RecordItem = JSON.parse(JSON.stringify(record));
       state.recordList.push(record2);
       store.commit('saveRecords');
     },
     saveRecords(state) {
       window.localStorage.setItem('recordList', JSON.stringify(state.recordList));
+    },
+    removeRecord(state, record) {
+      store.commit('fetchRecords');
+      for (let i = 0; i < state.recordList.length; i++) {
+        if (state.recordList[i].id === record.id) {
+          state.recordList.splice(i, 1);
+        }
+      }
+      store.commit('saveRecords');
     },
     fetchLabels(state) {
       state.labelList = JSON.parse(window.localStorage.getItem('labelList') || '[]');
@@ -43,6 +52,6 @@ const store = new Vuex.Store({
       window.localStorage.setItem('labelList', JSON.stringify(state.labelList));
     }
   }
-})
+});
 
 export default store;
