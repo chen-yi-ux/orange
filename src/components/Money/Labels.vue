@@ -47,9 +47,9 @@ export default class Labels extends Vue {
   @Watch('type')
   updateLabel() {
     if (this.type === '-') {
-      this.select({id: '', name: '三餐', svg: '三餐', type: '-'});
+      this.select({name: '三餐', svg: '三餐', type: '-'});
     } else {
-      this.select({id: '', name: '工资', svg: '工资', type: '+'});
+      this.select({name: '工资', svg: '工资', type: '+'});
     }
   }
 
