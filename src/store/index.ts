@@ -22,6 +22,14 @@ const store = new Vuex.Store({
     saveRecords(state) {
       window.localStorage.setItem('recordList', JSON.stringify(state.recordList));
     },
+    updateRecord(state, record) {
+      for (let i = 0; i < state.recordList.length; i++) {
+        if (state.recordList[i].id === record.id) {
+          state.recordList[i] = record;
+        }
+      }
+      store.commit('saveRecords');
+    },
     removeRecord(state, record) {
       store.commit('fetchRecords');
       for (let i = 0; i < state.recordList.length; i++) {

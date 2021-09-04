@@ -2,7 +2,7 @@
   <div class="edit">
     <div class="title">
       <Icon name="left" class="titleIcon" @click="goBack"/>
-      <span class="title-wrapper">编辑支出</span>
+      <span class="title-wrapper">编辑{{recordType}}</span>
     </div>
     <div class="content">
       <div class="money">
@@ -10,7 +10,7 @@
           <Icon :name="recordItem.labels.svg" class="labelIcon"/>
           <span class="label-wrapper">{{ recordItem.labels.name }}</span>
         </div>
-        <span class="amount">￥{{recordItem.amount}}</span>
+        <input class="amount" type="number" v-model="recordItem.amount" />
       </div>
       <div class="xxx">
         <div class="list">
@@ -19,18 +19,22 @@
               <Icon name="time" class="icon"/>
               <span class="wrapper">时间</span>
             </div>
-            <div class="input">{{recordItem.date}}</div>
+            <div class="input">
+              <a-date-picker show-time placeholder="选择日期"
+                             :defaultValue="moment(getCurrentDate(), 'YYYY-MM-DD HH:mm')"
+                             @change="changeDate"/>
+            </div>
           </div>
           <div class="content-wrapper">
             <div class="main">
               <Icon name="note" class="icon"/>
               <span class="wrapper">备注</span>
             </div>
-            <div class="input">{{recordItem.notes}}</div>
+            <input class="input" type="text" v-model="recordItem.notes"/>
           </div>
         </div>
         <div class="footer">
-          <div class="save">保存</div>
+          <div class="save" @click="save">保存</div>
           <div class="delete" @click="remove(record)">删除</div>
         </div>
       </div>
@@ -45,18 +49,29 @@ import Time from '@/components/Money/Time.vue';
 import Notes from '@/components/Money/Notes.vue';
 import {Component} from 'vue-property-decorator';
 import {RecordItem} from '@/custom';
+import moment, {Moment} from 'moment';
 
 @Component({
   components: {Notes, Time}
 })
 export default class RecordEdit extends Vue {
+  moment = moment;
   id = parseInt(this.$route.params.id);
   record = this.$store.state.recordList.filter((item:RecordItem) => item.id === this.id)[0];
 
+  beforeCreate(){
+    this.$store.commit('fetchRecords');
+  }
   get recordItem(){
-    console.log(this.record);
-    console.log(this.record.id);
     return this.record;
+  }
+
+  get recordType(){
+    if(this.record.type === '-'){
+      return '支出';
+    }else{
+      return '收入';
+    }
   }
 
   goBack(){
@@ -66,6 +81,23 @@ export default class RecordEdit extends Vue {
   remove(record: RecordItem){
     record = this.record;
     this.$store.commit('removeRecord', record);
+    this.$router.back();
+  }
+  getCurrentDate(){
+    const date = this.record.date;
+    this.$emit('update:value', date);
+    console.log(date);
+    return date;
+  }
+
+  changeDate(moment: Moment) {
+    const date = moment.format('YYYY-MM-DD HH:mm');
+    this.record.date = date;
+    this.$emit('update:value', date);
+  }
+  save(record: RecordItem){
+    record = this.record;
+    this.$store.commit('updateRecord', record);
     this.$router.back();
   }
 }
@@ -125,9 +157,15 @@ export default class RecordEdit extends Vue {
         }
       }
       > .amount {
-        font-size: 30px;
+        font-size: 40px;
         font-family: Consolas, monospace;
         color: #306ECC;
+        background: none;
+        outline: none;
+        border: 0;
+        text-align: right;
+        width: 60%;
+        padding-right: 10px;
       }
     }
 
@@ -162,6 +200,9 @@ export default class RecordEdit extends Vue {
             color: black;
             padding-left: 10px;
             font-size: 20px;
+            background: none;
+            outline: none;
+            border: 0;
           }
         }
       }
