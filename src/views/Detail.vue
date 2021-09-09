@@ -98,6 +98,7 @@ export default class Detail extends Vue {
     }
   }
 
+
   get incomeAmount(){
     let income = 0;
     let group: GroupedList;

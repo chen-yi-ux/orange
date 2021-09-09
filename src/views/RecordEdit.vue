@@ -81,12 +81,11 @@ export default class RecordEdit extends Vue {
   remove(record: RecordItem){
     record = this.record;
     this.$store.commit('removeRecord', record);
-    this.$router.back();
+    this.$router.replace('/detail');
   }
   getCurrentDate(){
     const date = this.record.date;
     this.$emit('update:value', date);
-    console.log(date);
     return date;
   }
 
@@ -95,10 +94,9 @@ export default class RecordEdit extends Vue {
     this.record.date = date;
     this.$emit('update:value', date);
   }
-  save(record: RecordItem){
-    record = this.record;
-    this.$store.commit('updateRecord', record);
-    this.$router.back();
+  save(){
+    this.$store.commit('updateRecord', this.record);
+    this.$router.replace('/detail');
   }
 }
 </script>
