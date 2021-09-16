@@ -75,7 +75,7 @@ export default class RecordEdit extends Vue {
   }
 
   goBack(){
-    this.$router.back();
+    this.$router.replace('/detail');
   }
 
   remove(record: RecordItem){
