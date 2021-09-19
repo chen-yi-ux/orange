@@ -1,4 +1,6 @@
-const defaultLabels = [
+import {Label} from '@/custom';
+
+const defaultLabels: Label[] = [
   {name: '三餐', svg: '三餐', type: '-'},
   {name: '衣服', svg: '衣服', type: '-'},
   {name: '宠物', svg: '宠物', type: '-'},

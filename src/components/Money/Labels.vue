@@ -20,7 +20,6 @@
             <span>设置</span>
           </div>
         </li>
-
       </ul>
     </div>
   </div>
@@ -29,7 +28,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component, Prop, Watch} from 'vue-property-decorator';
-import {Label} from '@/custom';
+import {Label, RootState} from '@/custom';
 
 @Component
 export default class Labels extends Vue {
@@ -41,7 +40,8 @@ export default class Labels extends Vue {
   }
 
   get dataSource() {
-    return this.$store.state.labelList.filter((item:Label) => item.type === this.type);
+    console.log((this.$store.state as RootState).labelList);
+    return (this.$store.state as RootState).labelList.filter((item:Label) => item.type === this.type);
   }
 
   @Watch('type')

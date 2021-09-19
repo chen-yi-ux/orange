@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import {Label, RecordItem, RootState} from '@/custom';
-import createId from '@/lib/createId';
+import {RecordItem, RootState} from '@/custom';
+import defaultLabels from '@/constants/defaultLabels';
 
 Vue.use(Vuex);  // 把 store 绑到 Vue.prototype.$store = store
 
@@ -39,8 +39,16 @@ const store = new Vuex.Store({
       }
       store.commit('saveRecords');
     },
+    setDefaultLabels(){
+      for(let i=0; i<defaultLabels.length; i++){
+        store.commit('createLabel', defaultLabels[i]);
+      }
+    },
     fetchLabels(state) {
       state.labelList = JSON.parse(window.localStorage.getItem('labelList') || '[]');
+      if(!state.labelList || state.labelList.length === 0){
+        store.commit('setDefaultLabels');
+      }
     },
     createLabel(state, item) {
       state.labelList.push({name: item.name, svg: item.svg, type: item.type});
