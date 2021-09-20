@@ -25,6 +25,9 @@ const store = new Vuex.Store({
     updateRecord(state, record) {
       for (let i = 0; i < state.recordList.length; i++) {
         if (state.recordList[i].id === record.id) {
+          if(typeof record.amount === 'string'){
+            record.amount = parseFloat(record.amount);
+          }
           state.recordList[i] = record;
         }
       }

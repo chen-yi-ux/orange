@@ -7,10 +7,10 @@
     <div class="content">
       <div class="money">
         <div class="label">
-          <Icon :name="recordItem.labels.svg" class="labelIcon"/>
-          <span class="label-wrapper">{{ recordItem.labels.name }}</span>
+          <Icon :name="record.labels.svg" class="labelIcon"/>
+          <span class="label-wrapper">{{ record.labels.name }}</span>
         </div>
-        <input class="amount" type="number" v-model="recordItem.amount" />
+        <input class="amount" type="number" pattern="\d*" v-model="record.amount"/>
       </div>
       <div class="xxx">
         <div class="list">
@@ -30,7 +30,7 @@
               <Icon name="note" class="icon"/>
               <span class="wrapper">备注</span>
             </div>
-            <input class="input" type="text" v-model="recordItem.notes"/>
+            <input class="input" type="text" v-model="record.notes"/>
           </div>
         </div>
         <div class="footer">
@@ -39,7 +39,6 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -48,7 +47,7 @@ import Vue from 'vue';
 import Time from '@/components/Money/Time.vue';
 import Notes from '@/components/Money/Notes.vue';
 import {Component} from 'vue-property-decorator';
-import {RecordItem} from '@/custom';
+import {RecordItem, RootState} from '@/custom';
 import moment, {Moment} from 'moment';
 
 @Component({
@@ -57,13 +56,10 @@ import moment, {Moment} from 'moment';
 export default class RecordEdit extends Vue {
   moment = moment;
   id = parseInt(this.$route.params.id);
-  record = this.$store.state.recordList.filter((item:RecordItem) => item.id === this.id)[0];
+  record = (this.$store.state as RootState).recordList.filter((item:RecordItem) => item.id === this.id)[0];
 
   beforeCreate(){
     this.$store.commit('fetchRecords');
-  }
-  get recordItem(){
-    return this.record;
   }
 
   get recordType(){
