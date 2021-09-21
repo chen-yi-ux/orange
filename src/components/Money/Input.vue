@@ -1,6 +1,6 @@
 <template>
   <div class="input">
-    <input type="number" pattern="\d*"
+    <input type="number"
            onfocus="if(value==='0.00') {value=''}"
            onblur="if (value==='') {value='0.00'}"
            :value="this.value"

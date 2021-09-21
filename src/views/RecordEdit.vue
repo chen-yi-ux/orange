@@ -10,7 +10,7 @@
           <Icon :name="record.labels.svg" class="labelIcon"/>
           <span class="label-wrapper">{{ record.labels.name }}</span>
         </div>
-        <input class="amount" type="number" pattern="\d*" v-model="record.amount"/>
+        <input class="amount" type="number" v-model="record.amount"/>
       </div>
       <div class="xxx">
         <div class="list">
