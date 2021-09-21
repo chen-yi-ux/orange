@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="labels">
+  <div class="labels">
+    <div class="labels-title">
       <Icon name="label" class="labelIcon"/>
       <span class="content">分类</span>
     </div>
@@ -64,81 +64,86 @@ export default class Labels extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.labels {
-  font-size: 18px;
-  padding-top: 13px;
-  display: flex;
-  align-items: center;
-
-  > .labelIcon {
-    width: 27px;
-    height: 27px;
-  }
-
-  > .content {
-    padding-left: 5px;
-    color: #636363;
-  }
-}
-
-.scrollArea {
-  height: 35vh;
-  overflow: auto;
-
-  .icons {
+.labels{
+  height: calc(100% - 210px);
+  .labels-title {
+    font-size: 18px;
+    padding-top: 13px;
     display: flex;
-    flex-wrap: wrap;
-    padding: 12px 0;
+    align-items: center;
+    height: 45px;
 
-    > li {
-      width: 33.33333%;
-      height: 85px;
+    > .labelIcon {
+      width: 27px;
+      height: 27px;
+    }
+
+    > .content {
+      padding-left: 5px;
+      color: #636363;
+    }
+  }
+
+  .scrollArea {
+    height: calc(100% - 50px);
+    overflow: auto;
+
+    .icons {
       display: flex;
-      justify-content: center;
-      align-items: center;
+      flex-wrap: wrap;
+      padding: 12px 0;
 
-      > .item {
+      > li {
+        width: 33.33333%;
+        height: 85px;
         display: flex;
         justify-content: center;
         align-items: center;
-        flex-direction: column;
-        font-size: 16px;
-        width: 90%;
-        height: 75px;
-        border-radius: 20px;
 
-        &.selected {
-          background: lavenderblush;
+        > .item {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          font-size: 16px;
+          width: 90%;
+          height: 75px;
+          border-radius: 20px;
 
-          svg {
-            animation: shake 0.3s linear;
+          &.selected {
+            background: lavenderblush;
+
+            svg {
+              animation: shake 0.3s linear;
+            }
+          }
+
+          > .itemIcon {
+            width: 45px;
+            height: 45px;
           }
         }
 
-        > .itemIcon {
-          width: 45px;
-          height: 45px;
-        }
-      }
-
-      @keyframes shake {
-        0% {
-          transform: rotate(0deg);
-        }
-        20% {
-          transform: rotate(20deg);
-        }
-        40% {
-          transform: rotate(0deg);
-        }
-        80% {
-          transform: rotate(-20deg);
-        }
-        100% {
-          transform: rotate(0deg);
+        @keyframes shake {
+          0% {
+            transform: rotate(0deg);
+          }
+          20% {
+            transform: rotate(20deg);
+          }
+          40% {
+            transform: rotate(0deg);
+          }
+          80% {
+            transform: rotate(-20deg);
+          }
+          100% {
+            transform: rotate(0deg);
+          }
         }
       }
     }
   }
 }
+
 </style>
