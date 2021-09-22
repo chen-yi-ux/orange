@@ -1,9 +1,14 @@
 <template>
   <div>
-    <Layout>
       <div class="title">
-        <span>{{ typeName }}</span>
-        <Icon name="down" class="icon" @click="changeType"></Icon>
+        <div class="left" @click="goBack">
+          <Icon name="left"/>
+        </div>
+        <div class="middle">
+          <span>{{ typeName }}</span>
+          <Icon name="down" class="icon" @click="changeType"></Icon>
+        </div>
+        <div class="right"></div>
       </div>
       <div class="main">
         <div class="chooseMonth">
@@ -14,10 +19,21 @@
         <Echarts :option="option"/>
         <div class="total">
           <div>总{{ typeName }}</div>
-          <div class="number">{{Amount}}元</div>
+          <div class="number">{{ Amount }}元</div>
+        </div>
+        <div class="base">
+          <div class="item" v-for="item in chartList" :key="item.name">
+            <div class="block">
+              <span class="item-icon">
+                <Icon :name="item.svg"/>
+              </span>
+              <span class="item-name">{{ item.name }}</span>
+              <span class="item-per">{{item.per}}%</span>
+            </div>
+            <div class="item-amount">{{ item.value }}</div>
+          </div>
         </div>
       </div>
-    </Layout>
   </div>
 </template>
 
@@ -36,7 +52,7 @@ use(
     [TooltipComponent, PieChart, CanvasRenderer, LegendComponent, TitleComponent]
 );
 
-type Data = {value: number ,name: string}
+type Data = { value: number, name: string }
 
 @Component({
   components: {Echarts},
@@ -58,9 +74,13 @@ export default class Chart extends Vue {
     }
   }
 
-  get records(){
+  get records() {
     console.log(this.month);
-    return (this.$store.state as RootState).recordList.filter((record:RecordItem) => record.type === this.type && moment(record.date).isSame(this.time, 'month'));
+    return (this.$store.state as RootState).recordList.filter((record: RecordItem) => record.type === this.type && moment(record.date).isSame(this.time, 'month'));
+  }
+
+  goBack(){
+    this.$router.replace('/detail');
   }
 
   get typeName() {
@@ -98,32 +118,38 @@ export default class Chart extends Vue {
     }
   }
 
-  get Amount(){
-    if(this.records.length === 0){return 0;}
+  get Amount() {
+    if (this.records.length === 0) {return 0;}
     let amount: number = 0;
     let item: RecordItem;
-    for(item of this.records){
+    for (item of this.records) {
       amount += item.amount;
     }
     return amount;
   }
 
-  get chartList(){
-    if(this.records.length === 0){return [];}
-    const chartList = [{name: this.records[0].labels.name, value: this.records[0].amount}];
-    let flag:boolean = false;
-    for(let i=1; i<this.records.length; i++){
+  get chartList() {
+    if (this.records.length === 0) {return [];}
+    let chartList = [{name: this.records[0].labels.name, value: this.records[0].amount, svg: this.records[0].labels.svg, per: 0}];
+    let flag: boolean = false;
+    for (let i = 1; i < this.records.length; i++) {
       flag = false;
-      for(let j=0; j<chartList.length; j++){
-        if(chartList[j].name === this.records[i].labels.name){
+      for (let j = 0; j < chartList.length; j++) {
+        if (chartList[j].name === this.records[i].labels.name) {
           chartList[j].value += this.records[i].amount;
           flag = true;
         }
       }
-      if(!flag){
-        chartList.push({name: this.records[i].labels.name, value: this.records[i].amount});
+      if (!flag) {
+        chartList.push({name: this.records[i].labels.name, value: this.records[i].amount, svg: this.records[i].labels.svg, per: 0});
       }
     }
+    for(let i=0; i<chartList.length; i++){
+      chartList[i].per = parseFloat((chartList[i].value * 100 / this.Amount).toFixed(2));
+      chartList[i].value = parseFloat(chartList[i].value.toFixed(2));
+      // 解决 js 的浮点运算 bug
+    }
+    chartList = chartList.sort((b, a) => a.per - b.per);
     return chartList;
   }
 
@@ -133,12 +159,13 @@ export default class Chart extends Vue {
         trigger: 'item',
         formatter: '{a} <br/>{b} : {c} ({d}%)'
       },
-      color: ['#DF7861', '#ECB390', '#D4E2D4', '#FCF8E8', '#86ABA1', '#F7DAD9', '#DEECFC'],
+      color: ['#ea635c', '#ffbd99', '#f5c05f', '#89acf7', '#c2db63', '#83d995', '#DEECFC'],
       series: [
         {
           name: '',
           type: 'pie',
-          radius: '50%',
+          radius: '70%',
+          center: ['50%', '50%'],
           itemStyle: {
             borderRadius: 8,
             borderColor: '#fff',
@@ -163,32 +190,44 @@ export default class Chart extends Vue {
 .title {
   height: 70px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   font-size: 22px;
-  color: black;
-  border: 2px solid #F69E7B;
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
-
-  > .icon {
-    width: 28px;
-    height: 28px;
-    margin-left: 10px;
+  color: white;
+  //box-shadow: inset 0 0 50px 5px #FF983B;
+  background: #FF983B;
+  > .left{
+    padding-left: 10px;
+    width: 32px;
+    height: 32px;
+    > .icon {
+      width: 28px;
+      height: 28px;
+    }
+  }
+  > .middle{
+    > .icon {
+      width: 28px;
+      height: 28px;
+      margin-left: 10px;
+    }
+  }
+  > .right{
+    width: 32px;
+    height: 32px;
   }
 }
 
 .main {
-  background: #fbfbfc;
   height: calc(100% - 70px);
 
   > .chooseMonth {
-    height: 80px;
+    height: 60px;
     padding: 20px;
     flex-wrap: nowrap;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-top: 60px;
 
     > .month {
       font-size: 26px;
@@ -212,21 +251,61 @@ export default class Chart extends Vue {
 
   > .echarts {
     width: 100%;
-    //height: calc(100% - 80px);
-    //padding-bottom: 100px;
-    height: 350px;
+    height: 300px;
   }
 
   > .total {
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
     color: #144a74;
     font-size: 22px;
     padding: 0 10px;
-    > .number{
+    padding-bottom: 5px;
+    height: 38px;
+    > .number {
       padding-left: 10px;
+    }
+  }
+
+  > .base {
+    height: calc(100% - 400px);
+    overflow: auto;
+    box-shadow: 3px 0 5px #e3e3e3;
+    > .item {
+      border-bottom: 1px solid #e3e3e3;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: nowrap;
+      height: 50px;
+      padding: 0 5px;
+      font-size: 18px;
+      > .block{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        > .item-icon {
+          > .icon {
+            width: 30px;
+            height: 30px;
+          }
+        }
+
+        > .item-name {
+          padding-left: 5px;
+          color: black;
+        }
+
+        > .item-per {
+          padding-left: 10px;
+          color: #6e6e6e;
+        }
+      }
+      > .item-amount {
+          color: black;
+      }
     }
   }
 }
