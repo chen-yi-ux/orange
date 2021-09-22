@@ -40,7 +40,6 @@ export default class Labels extends Vue {
   }
 
   get dataSource() {
-    console.log((this.$store.state as RootState).labelList);
     return (this.$store.state as RootState).labelList.filter((item:Label) => item.type === this.type);
   }
 

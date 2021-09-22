@@ -7,17 +7,21 @@
           <span class="title-wrapper">橙子记账本</span>
         </div>
         <div class="title-down">
-          <div class="month">
-            9月
-          </div>
+          <a-month-picker show-time placeholder="选择日期"
+                         :defaultValue="moment(getCurrentDate(), 'YYYY-MM')"
+                         @change="changeDate"/>
           <div class="money">
             <div class="income">
-              <span class="income-content">收入</span>
-              <span class="income-amount">{{this.incomeAmount || 0}}</span>
+              <div class="income-content">收入</div>
+              <div class="income-amount">
+                <span>{{ this.incomeAmount || 0 }}</span>
+              </div>
             </div>
             <div class="expenses">
-              <span class="expenses-content">支出</span>
-              <span class="expenses-amount">{{ this.expensesAmount || 0 }}</span>
+              <div class="expenses-content">支出</div>
+              <div class="expenses-amount">
+                <span>{{ this.expensesAmount || 0 }}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -27,7 +31,7 @@
           <li v-for="(group, index) in result" :key="index">
             <div class="item1">
               <span class="date">{{ beautify(group.title) }}</span>
-              <span class="amount1">{{groupAmount(group)}}</span>
+              <span class="amount1">{{ groupAmount(group) }}</span>
             </div>
             <ol>
               <router-link class="record" v-for="item in group.items" :key="item.id" :to="`/detail/edit/${item.id}`">
@@ -51,34 +55,46 @@
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import {RecordItem, RootState} from '@/custom';
-import moment from 'moment';
+import moment, {Moment} from 'moment';
 import clone from '@/lib/clone';
 
-type GroupedList = {title: string, items: RecordItem[]};
+type GroupedList = { title: string, items: RecordItem[] };
 
 @Component
 export default class Detail extends Vue {
+  moment = moment;
+  newDate = moment();
   beforeCreate() {
     this.$store.commit('fetchRecords');
   }
 
+  getCurrentDate(){
+    const now = moment().format('YYYY-MM');
+    this.$emit('update:value', now);
+    return now;
+  }
+  changeDate(moment: Moment) {
+    const date = moment.format('YYYY-MM');
+    this.newDate = moment;
+    this.$emit('update:value', date);
+  }
+
   get recordList() {
-    return (this.$store.state as RootState).recordList;
+    return (this.$store.state as RootState).recordList.filter(record => moment(record.date).isSame(this.newDate, 'month'));
   }
 
   get result() {
     const {recordList} = this;
     if (recordList.length === 0) { return [];}
     const newList = clone(recordList).sort((a, b) => moment(b.date).valueOf() - moment(a.date).valueOf());
-    const groupedList = [{title: moment(newList[0].date).format('YYYY-MM-DD'), items:[newList[0]]}];
+    const groupedList = [{title: moment(newList[0].date).format('YYYY-MM-DD'), items: [newList[0]]}];
     for (let i = 1; i < newList.length; i++) {
       const current = newList[i];
       const last = groupedList[groupedList.length - 1];
-      if(moment(last.title).isSame(moment(current.date), 'day')){
+      if (moment(last.title).isSame(moment(current.date), 'day')) {
         last.items.push(current);
-      }
-      else{
-        groupedList.push({title: moment(current.date).format('YYYY-MM-DD'), items: [current]})
+      } else {
+        groupedList.push({title: moment(current.date).format('YYYY-MM-DD'), items: [current]});
       }
     }
     return groupedList;
@@ -99,26 +115,27 @@ export default class Detail extends Vue {
   }
 
 
-  get incomeAmount(){
+  get incomeAmount() {
     let income = 0;
     let group: GroupedList;
-    for(group of this.result){
+    for (group of this.result) {
       let item: RecordItem;
-      for(item of group.items){
-        if(item.type === '+'){
+      for (item of group.items) {
+        if (item.type === '+') {
           income += item.amount;
         }
       }
     }
     return income;
   }
-  get expensesAmount(){
+
+  get expensesAmount() {
     let expenses = 0;
     let group: GroupedList;
-    for(group of this.result){
+    for (group of this.result) {
       let item: RecordItem;
-      for(item of group.items){
-        if(item.type === '-'){
+      for (item of group.items) {
+        if (item.type === '-') {
           expenses += item.amount;
         }
       }
@@ -126,19 +143,19 @@ export default class Detail extends Vue {
     return expenses;
   }
 
-  groupAmount(group: GroupedList){
+  groupAmount(group: GroupedList) {
     let total = 0;
     let item: RecordItem;
-    for(item of group.items){
-      if(item.type === '+'){
+    for (item of group.items) {
+      if (item.type === '+') {
         total += item.amount;
-      }else if(item.type === '-'){
+      } else if (item.type === '-') {
         total -= item.amount;
       }
     }
-    if(total >= 0){
+    if (total >= 0) {
       return ('+' + total);
-    }else if (total < 0) {
+    } else if (total < 0) {
       return total;
     }
   }
@@ -161,7 +178,7 @@ export default class Detail extends Vue {
   height: 120px;
 
   > .title-up {
-    height: 70px;
+    height: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -182,19 +199,14 @@ export default class Detail extends Vue {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
-    height: 50px;
-    color: #FFF2DD;
+    padding: 0 10px;
+    height: 60px;
+    color: #FCF8E8;
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
-
-
-    > .month {
-      font-size: 24px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    .ant-calendar-picker,.ant-input{
+      width: 100px;
+      background-color: transparent;
     }
-
     > .money {
       width: 70%;
       display: flex;
@@ -202,22 +214,24 @@ export default class Detail extends Vue {
       justify-content: space-between;
 
       > .income {
+        width: 48%;
         display: flex;
         justify-content: center;
         align-items: center;
         font-size: 20px;
         flex-wrap: wrap;
+        padding-left: 10px;
 
         > .income-content {
           margin-right: 10px;
         }
 
         > .income-amount {
-
         }
       }
 
       > .expenses {
+        width: 48%;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -234,10 +248,7 @@ export default class Detail extends Vue {
         }
       }
     }
-
-
   }
-
 }
 
 .content {
@@ -264,6 +275,7 @@ export default class Detail extends Vue {
       padding: 5px 10px;
       font-size: 18px;
       color: black;
+
       > .name {
         display: flex;
         justify-content: center;

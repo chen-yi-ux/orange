@@ -20,7 +20,6 @@ export default class Time extends Vue {
   getCurrentDate(){
     const now = moment().format('YYYY-MM-DD HH:mm');
     this.$emit('update:value', now);
-    console.log(now);
     return now;
   }
 
