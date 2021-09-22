@@ -209,8 +209,11 @@ export default class RecordEdit extends Vue {
         align-items: center;
         padding: 0 10px;
         font-size: 24px;
-        position: absolute;
-        bottom: 10px;
+        //position: absolute;
+        //bottom: 10px;
+        position: fixed;
+        left: 0;
+        bottom: 0;
         > .save{
           display: flex;
           justify-content: center;

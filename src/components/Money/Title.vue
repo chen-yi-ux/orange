@@ -26,8 +26,6 @@ export default class Title extends Vue {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  > .content{
-  }
   > .leftIcon{
     width: 24px;
     height: 24px;

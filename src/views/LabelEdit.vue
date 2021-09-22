@@ -167,7 +167,10 @@ export default class LabelEdit extends Vue {
       background: white;
       font-size: 18px;
       flex-direction: column;
-
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100%;
       > .icon {
         width: 23px;
         height: 23px;

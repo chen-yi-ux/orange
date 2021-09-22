@@ -65,11 +65,18 @@ export default class Money extends Vue {
 
 header {
   height: 110px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
 }
 
 main {
   height: calc(100% - 110px);
-
+  position: fixed;
+  left: 0;
+  top: 110px;
+  width: 100%;
   > .body {
     height: 100%;
 
