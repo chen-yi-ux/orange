@@ -18,13 +18,16 @@ export default class Layout extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.nav-wrapper{
+.nav-wrapper {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  overflow: auto;
+  > .content{
+    flex-grow: 1;         // 尽量把所有高度都给 .content
+    overflow: auto;      // 当这个元素内容太大，显示滚动条
+    padding-bottom: 52px;
+  }
 }
-.content{
-  flex-grow: 1;         // 尽量把所有高度都给 .content
-  overflow: auto;      // 当这个元素内容太大，显示滚动条
-}
+
 </style>

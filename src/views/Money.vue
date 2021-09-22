@@ -75,15 +75,18 @@ main {
 
     > .block {
       padding: 0 14px;
-      height: 88%;
+      height: calc(100% - 70px);
     }
 
     > .save {
-      height: 12%;
+      height: 65px;
       display: flex;
       justify-content: center;
       align-items: center;
-
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100%;
       > button {
         width: 35%;
         height: 80%;
