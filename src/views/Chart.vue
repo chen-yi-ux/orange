@@ -21,7 +21,8 @@
           <div>总{{ typeName }}</div>
           <div class="number">{{ Amount }}元</div>
         </div>
-        <div class="base">
+        <hr/>
+        <div class="base" v-if="records.length > 0">
           <div class="item" v-for="item in chartList" :key="item.name">
             <div class="block">
               <span class="item-icon">
@@ -32,6 +33,9 @@
             </div>
             <div class="item-amount">{{ item.value }}</div>
           </div>
+        </div>
+        <div class="base1" v-else>
+          <Blank/>
         </div>
       </div>
   </div>
@@ -47,6 +51,7 @@ import {PieChart} from 'echarts/charts';
 import {CanvasRenderer} from 'echarts/renderers';
 import {RecordItem, RootState} from '@/custom';
 import moment from 'moment';
+import Blank from '@/components/Blank.vue';
 
 use(
     [TooltipComponent, PieChart, CanvasRenderer, LegendComponent, TitleComponent]
@@ -55,7 +60,7 @@ use(
 type Data = { value: number, name: string }
 
 @Component({
-  components: {Echarts},
+  components: {Blank, Echarts},
 })
 export default class Chart extends Vue {
   type: string = '-';
@@ -164,8 +169,8 @@ export default class Chart extends Vue {
         {
           name: '',
           type: 'pie',
-          radius: '70%',
-          center: ['50%', '50%'],
+          radius: '60%',
+          center: ['50%', '40%'],
           itemStyle: {
             borderRadius: 8,
             borderColor: '#fff',
@@ -259,7 +264,7 @@ export default class Chart extends Vue {
 
   > .echarts {
     width: 100%;
-    height: 300px;
+    height: 250px;
   }
 
   > .total {
@@ -278,7 +283,7 @@ export default class Chart extends Vue {
   }
 
   > .base {
-    height: calc(100% - 400px);
+    height: calc(100% - 350px);
     overflow: auto;
     box-shadow: 3px 0 5px #e3e3e3;
     > .item {
@@ -315,6 +320,9 @@ export default class Chart extends Vue {
           color: black;
       }
     }
+  }
+  > .base1{
+    margin-top: 5vh;
   }
 }
 

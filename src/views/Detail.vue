@@ -26,7 +26,7 @@
           </div>
         </div>
       </div>
-      <div class="content">
+      <div class="content" v-if="recordList.length > 0">
         <ol>
           <li v-for="(group, index) in result" :key="index">
             <div class="item1">
@@ -47,6 +47,9 @@
           </li>
         </ol>
       </div>
+      <div class="content1" v-else>
+        <Blank/>
+      </div>
     </Layout>
   </div>
 </template>
@@ -57,10 +60,12 @@ import {Component} from 'vue-property-decorator';
 import {RecordItem, RootState} from '@/custom';
 import moment, {Moment} from 'moment';
 import clone from '@/lib/clone';
+import Blank from '@/components/Blank.vue';
 
 type GroupedList = { title: string, items: RecordItem[] };
-
-@Component
+@Component({
+  components: {Blank}
+})
 export default class Detail extends Vue {
   moment = moment;
   newDate = moment();
@@ -296,5 +301,8 @@ export default class Detail extends Vue {
       }
     }
   }
+}
+.content1{
+  margin-top: 22vh;
 }
 </style>
