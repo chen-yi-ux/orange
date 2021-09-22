@@ -46,7 +46,7 @@ export default class LabelEdit extends Vue {
   type = '-';
 
   goBack() {
-    this.$router.back();
+    this.$router.replace('/money');
   }
 
   beforeCreate(){

@@ -45,7 +45,7 @@ export default class LabelAddExpenses extends Vue {
   }
 
   goBack() {
-    this.$router.back();
+    this.$router.replace('/money/edit');
   }
 
   get typeName() {
@@ -66,7 +66,7 @@ export default class LabelAddExpenses extends Vue {
     } else {
       this.$store.commit('createLabel', {id: '', name: this.name, svg: this.selectIcon, type: this.type})
       window.alert('已添加');
-      this.$router.back();
+      this.$router.replace('/money/edit');
     }
   }
 }

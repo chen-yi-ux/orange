@@ -13,7 +13,7 @@ import {Component} from 'vue-property-decorator';
 @Component
 export default class Title extends Vue {
   goBack(){
-    this.$router.back();
+    this.$router.replace('/detail');
   }
 }
 </script>
