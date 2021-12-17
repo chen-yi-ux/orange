@@ -201,9 +201,9 @@ export default class Chart extends Vue {
   color: white;
   //box-shadow: inset 0 0 50px 5px #FF983B;
   background: #FF983B;
-  position: fixed;
-  left: 0;
-  top: 0;
+  //position: fixed;
+  //left: 0;
+  //top: 0;
   width: 100%;
   > .left{
     padding-left: 10px;
@@ -229,8 +229,8 @@ export default class Chart extends Vue {
 
 .main {
   height: calc(100% - 70px);
-  position: fixed;
-  left: 0;
+  //position: fixed;
+  //left: 0;
   top: 70px;
   width: 100%;
 

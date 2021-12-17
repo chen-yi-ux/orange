@@ -34,9 +34,9 @@ nav {
   box-shadow: 0 0 3px rgba(0,0,0,0.2);
   flex-direction: row;
   font-size: 12px;
-  position: fixed;
-  left: 0;
-  bottom: 0;
+  //position: fixed;
+  //left: 0;
+  //bottom: 0;
   width: 100%;
   > .item{
     display: flex;

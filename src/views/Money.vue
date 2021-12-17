@@ -65,16 +65,16 @@ export default class Money extends Vue {
 
 header {
   height: 110px;
-  position: fixed;
-  left: 0;
-  top: 0;
+  //position: fixed;
+  //left: 0;
+  //top: 0;
   width: 100%;
 }
 
 main {
   height: calc(100% - 110px);
-  position: fixed;
-  left: 0;
+  //position: fixed;
+  //left: 0;
   top: 110px;
   width: 100%;
   > .body {
@@ -90,9 +90,9 @@ main {
       display: flex;
       justify-content: center;
       align-items: center;
-      position: fixed;
-      left: 0;
-      bottom: 0;
+      //position: fixed;
+      //left: 0;
+      //bottom: 0;
       width: 100%;
       > button {
         width: 35%;
